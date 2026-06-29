@@ -310,7 +310,7 @@ body {
     </div>
   </div>
 
-  <h4 style="font-size:15px;font-weight:600;margin-bottom:14px;">📋 九大命令模块</h4>
+  <h4 style="font-size:15px;font-weight:600;margin-bottom:14px;">📋 十大命令模块</h4>
   <table class="cmd-table">
     <thead>
       <tr><th style="width:16%">命令</th><th style="width:40%">做什么</th><th>典型用法</th></tr>
@@ -342,6 +342,11 @@ body {
         <td><code>guancli card preview &lt;id&gt; -f csv -o data.csv</code></td>
       </tr>
       <tr>
+        <td><code>guancli chatbi</code></td>
+        <td>ChatBI 调用：L1 问数、L2 洞察，支持指定 Agent 模式</td>
+        <td><code>guancli chatbi query --theme-name "经营" --message "本月GMV?"</code></td>
+      </tr>
+      <tr>
         <td><code>guancli metric</code></td>
         <td>指标管理：搜索、查询、创建/编辑/删除、目录树、公共维度</td>
         <td><code>guancli metric search 营收</code><br><code>guancli metric query &lt;id&gt; --dim 城市</code></td>
@@ -371,6 +376,8 @@ body {
 <span class="cmd">guancli</span> ds preview <span class="arg">abc123</span> --limit <span class="arg">20</span>              <span class="comment"># 3. 预览数据</span>
 <span class="cmd">guancli</span> ds execute-sql -inputs <span class="arg">abc123</span> \
   -sql <span class="arg">'SELECT COUNT(*) as total FROM `销售订单`'</span>    <span class="comment"># 4. 自由 SQL 查询</span>
+<span class="cmd">guancli</span> chatbi query --theme-name <span class="arg">"经营"</span> \
+  --message <span class="arg">"分析最近30天各品类GMV变化"</span>           <span class="comment"># 5. ChatBI 问数</span>
   </div>
 
   <div class="highlight-box" style="background: linear-gradient(135deg, #e8ecff 0%, #f5f3ff 100%); border-color: #a5b4fc;">
@@ -379,7 +386,7 @@ body {
     <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
       <tr style="border-bottom:1px solid #c7d2fe;">
         <td style="padding:6px 10px;"><strong>guancli</strong></td>
-        <td style="padding:6px 10px;color:var(--primary);">查 ETL / 数据集 / 页面 / 卡片 / 表单 / 指标</td>
+        <td style="padding:6px 10px;color:var(--primary);">查 ETL / 数据集 / 页面 / 卡片 / 表单 / 指标 / ChatBI</td>
       </tr>
       <tr style="border-bottom:1px solid #c7d2fe;">
         <td style="padding:6px 10px;"><strong>guanetl</strong></td>
