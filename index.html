@@ -287,7 +287,7 @@ body {
 
   <div class="highlight-box">
     <h4>💡 guancli 是什么？</h4>
-    <p>guancli 是一个通过直接调用 BI 系统 API 来操作观远 BI 的命令行工具。只需 <code style="background:#fde68a;padding:1px 6px;border-radius:3px;color:#92400e;font-size:12.5px;">guancli auth login</code> 配置一次认证，之后所有操作——查 ETL、看数据集、搜页面、问 ChatBI、管指标、操作表单——都在终端里一行命令搞定。</p>
+    <p>guancli 是一个通过直接调用 BI 系统 API 来操作观远 BI 的命令行工具。只需 <code style="background:#fde68a;padding:1px 6px;border-radius:3px;color:#92400e;font-size:12.5px;">guancli auth login</code> 配置一次认证，之后所有操作——查 ETL、看数据集、搜页面、管指标、操作表单——都在终端里一行命令搞定。</p>
   </div>
 
   <div class="two-col" style="margin-bottom:28px;">
@@ -297,7 +297,6 @@ body {
         <li>用户名密码登录（Token 自动刷新）</li>
         <li>直接粘贴 Auth Token</li>
         <li>多环境管理（staging/prod 自由切换）</li>
-        <li>ChatBI 复用同一 profile 认证，无需二次配置</li>
       </ul>
     </div>
     <div>
@@ -311,7 +310,7 @@ body {
     </div>
   </div>
 
-  <h4 style="font-size:15px;font-weight:600;margin-bottom:14px;">📋 十大命令模块</h4>
+  <h4 style="font-size:15px;font-weight:600;margin-bottom:14px;">📋 九大命令模块</h4>
   <table class="cmd-table">
     <thead>
       <tr><th style="width:16%">命令</th><th style="width:40%">做什么</th><th>典型用法</th></tr>
@@ -343,11 +342,6 @@ body {
         <td><code>guancli card preview &lt;id&gt; -f csv -o data.csv</code></td>
       </tr>
       <tr>
-        <td><code>guancli chatbi</code></td>
-        <td>ChatBI 调用：L1 问数 + L2 洞察，支持指定 Agent 模式</td>
-        <td><code>guancli chatbi query --theme-name "经营" --message "本月GMV?"</code></td>
-      </tr>
-      <tr>
         <td><code>guancli metric</code></td>
         <td>指标管理：搜索、查询、创建/编辑/删除、目录树、公共维度</td>
         <td><code>guancli metric search 营收</code><br><code>guancli metric query &lt;id&gt; --dim 城市</code></td>
@@ -377,8 +371,6 @@ body {
 <span class="cmd">guancli</span> ds preview <span class="arg">abc123</span> --limit <span class="arg">20</span>              <span class="comment"># 3. 预览数据</span>
 <span class="cmd">guancli</span> ds execute-sql -inputs <span class="arg">abc123</span> \
   -sql <span class="arg">'SELECT COUNT(*) as total FROM `销售订单`'</span>    <span class="comment"># 4. 自由 SQL 查询</span>
-<span class="cmd">guancli</span> chatbi query --theme-name <span class="arg">"经营"</span> \
-  --message <span class="arg">"分析最近30天各品类GMV变化"</span>           <span class="comment"># 5. ChatBI 洞察</span>
   </div>
 
   <div class="highlight-box" style="background: linear-gradient(135deg, #e8ecff 0%, #f5f3ff 100%); border-color: #a5b4fc;">
@@ -387,7 +379,7 @@ body {
     <table style="width:100%;font-size:13px;margin-top:8px;border-collapse:collapse;">
       <tr style="border-bottom:1px solid #c7d2fe;">
         <td style="padding:6px 10px;"><strong>guancli</strong></td>
-        <td style="padding:6px 10px;color:var(--primary);">查 ETL / 数据集 / 页面 / 卡片 / 表单 / 指标 / ChatBI</td>
+        <td style="padding:6px 10px;color:var(--primary);">查 ETL / 数据集 / 页面 / 卡片 / 表单 / 指标</td>
       </tr>
       <tr style="border-bottom:1px solid #c7d2fe;">
         <td style="padding:6px 10px;"><strong>guanetl</strong></td>
@@ -483,15 +475,14 @@ body {
       <h3>四层产品矩阵</h3>
       <ul style="font-size:13.5px;line-height:2.2;padding-left:18px;color:var(--gray-700);">
         <li><strong>数据层</strong>：DataFlow 智能 ETL + 数据集</li>
-        <li><strong>分析层</strong>：ChatBI + 仪表板洞察 + 指标中心</li>
-        <li><strong>决策层</strong>：洞察Agent + AI 决策工作台</li>
+        <li><strong>分析层</strong>：仪表板洞察 + 指标中心</li>
+        <li><strong>决策层</strong>：AI 决策工作台</li>
         <li><strong>应用层</strong>：SuperApp + AI 首页</li>
       </ul>
     </div>
     <div class="product-card" style="box-shadow:none;">
       <h3>关键创新</h3>
       <ul style="font-size:13.5px;line-height:2.2;padding-left:18px;color:var(--gray-700);">
-        <li><span class="hl-new">洞察Agent</span>：自动发现数据异常并推送</li>
         <li><span class="hl-new">AI 工作台</span>：决策任务集中管理中心</li>
         <li><span class="hl-key">Power机制</span>：决策到行动的触发与执行</li>
         <li><span class="hl-key">AIFDE</span>：AI-First 交付新模式</li>
@@ -501,7 +492,9 @@ body {
 
   <div class="highlight-box" style="margin-top:20px;">
     <h4>📌 5A 路径的实战意义</h4>
-    <p>传统 BI 停在"看报表"——DecideX 把 AI 往前推了一步，让系统能<strong>理解业务问题 → 分析原因 → 给出建议 → 推动行动 → 评估效果</strong>。在联合利华 F2C 智能排产、来伊份一店一策选品等场景中已落地验证。</p>
+    <p>传统 BI 停在"看报表"——DecideX 把 AI 往前推了一步，让系统能：<br>
+    <strong>理解业务问题</strong> → 分析原因 → <strong>给出建议</strong> → 推动行动 → <strong>评估效果</strong>。<br>
+    在联合利华 F2C 智能排产、来伊份一店一策选品等场景中已落地验证。</p>
   </div>
 </div>
 
@@ -520,8 +513,8 @@ body {
     </div>
     <div class="scenario-card" style="border-top: 3px solid var(--green);">
       <h4>👔 业务管理者</h4>
-      <p class="who">核心工具：ChatBI + 洞察Agent</p>
-      <p>打开 AI 首页就能看到关键指标和异常预警，用中文问就能拿到分析结论，不需要学报表操作。</p>
+      <p class="who">核心工具：SuperApp + 仪表板洞察</p>
+      <p>打开 AI 首页就能看到关键指标和异常预警，通过定制化决策面板和仪表板洞察快速掌握业务全貌。</p>
     </div>
     <div class="scenario-card" style="border-top: 3px solid var(--purple);">
       <h4>🏗️ 应用开发者</h4>
@@ -552,7 +545,6 @@ npm install -g <span class="arg">@guandata/guancli</span>
 <span class="comment"># 第三步：开用</span>
 <span class="cmd">guancli</span> ds tree                     <span class="comment"># 看所有数据集</span>
 <span class="cmd">guancli</span> ds preview <span class="arg">&lt;id&gt;</span> --limit 10 <span class="comment"># 预览数据</span>
-<span class="cmd">guancli</span> chatbi list-theme            <span class="comment"># 看 ChatBI 主题</span>
 <span class="cmd">guancli</span> metric search <span class="arg">营收</span>          <span class="comment"># 搜指标</span>
   </div>
 
