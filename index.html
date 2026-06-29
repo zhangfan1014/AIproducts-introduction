@@ -282,6 +282,29 @@ body {
 }
 .case-card .case-value span { color: #065f46; }
 
+/* Case Video */
+.case-video-toggle {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--primary); font-weight: 500;
+  cursor: pointer; margin-top: 10px; user-select: none;
+  padding: 4px 0;
+}
+.case-video-toggle:hover { color: var(--hover); }
+.case-video-toggle .arrow {
+  display: inline-block; transition: transform 0.2s;
+  font-size: 10px;
+}
+.case-video-toggle.open .arrow { transform: rotate(90deg); }
+.case-video-player {
+  display: none; margin-top: 10px; border-radius: 8px;
+  overflow: hidden; background: #000;
+}
+.case-video-player.show { display: block; }
+.case-video-player video {
+  width: 100%; display: block; border-radius: 8px;
+  max-height: 360px;
+}
+
 /* Comparison Table */
 .compare-section { margin-top: 36px; }
 .compare-table {
@@ -493,42 +516,56 @@ body {
         <h4>华东门店销售与会员消费占比分析</h4>
         <p>Agent 通过 GuanCLI 读取门店主数据和日销售汇总，自动完成华东 45 家门店 4 月销售分析，输出门店排名、会员消费占比和异常线索。</p>
         <div class="case-value"><span>价值：</span>减少人工找表、筛选、确认字段和计算指标的工作量</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case1.mov"></video></div>
       </div>
       <div class="case-card">
         <div class="case-num">案例 2</div>
         <h4>从分析结果生成经营摘要</h4>
         <p>Agent 将 BI 查询结果转换为业务语言，输出区域销售总结、Top 门店识别、异常门店洞察及下一步分析建议，可直接用于汇报。</p>
         <div class="case-value"><span>价值：</span>数据结果直接进入汇报和决策语境，减少二次整理成本</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case2.mov"></video></div>
       </div>
       <div class="case-card">
         <div class="case-num">案例 3</div>
         <h4>页面 / 卡片指标口径解读</h4>
         <p>自动生成"看板说明书"——说明页面面向的业务角色，解释每张卡片的数据集、维度、指标、计算口径、筛选条件和排序规则。</p>
         <div class="case-value"><span>价值：</span>帮助业务、分析师和实施团队更快对齐口径，降低沟通成本</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case3.mov"></video></div>
       </div>
       <div class="case-card">
         <div class="case-num">案例 4</div>
         <h4>ETL 加工链路排查</h4>
         <p>GuanCLI 读取 ETL 加工链路，Agent 自动定位过滤、聚合、JOIN 等可能影响指标的关键节点，给出下一步排查路径。</p>
         <div class="case-value"><span>价值：</span>把"人工翻 ETL"变成"Agent 生成排查路径"，降低数据排查门槛</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case4.mov"></video></div>
       </div>
       <div class="case-card">
         <div class="case-num">案例 5</div>
         <h4>生成异常门店清单数据集</h4>
         <p>用 GuanETL 将异常识别规则沉淀为可复用数据集，包含业务日期、门店信息、销售额、异常优先级、建议动作等字段。</p>
         <div class="case-value"><span>价值：</span>Agent 的识别规则沉淀为统一数据资产，后续所有展示和协作基于同一口径</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case5.mov"></video></div>
       </div>
       <div class="case-card">
         <div class="case-num">案例 6</div>
         <h4>生成门店经营异常分析页</h4>
         <p>基于异常清单数据集自动生成分析仪表板，展示异常规模、优先级分布、Top 门店，支持按日期、省市、店型筛选。</p>
         <div class="case-value"><span>价值：</span>一次性分析沉淀为可持续查看的仪表板，帮助运营团队更快定位重点门店</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case6.mov"></video></div>
       </div>
       <div class="case-card">
         <div class="case-num">案例 7</div>
         <h4>GuanCLI + 飞书 CLI 生成并发送日报</h4>
         <p>GuanCLI 读取经营数据 → Agent 生成异常日报和群摘要 → 飞书 CLI 创建日报文档 → 向指定群发送摘要和文档链接。</p>
         <div class="case-value"><span>价值：</span>BI 分析结果带到真实协作工具中，发现问题和组织跟进连在一起</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/guancli_case7.mov"></video></div>
       </div>
     </div>
   </div>
@@ -605,36 +642,48 @@ body {
         <h4>门店经营分析数据应用</h4>
         <p>把门店经营数据做成可持续访问的数据应用，展示关键指标、门店排名、趋势分析和明细表，支持按区域和日期筛选。</p>
         <div class="case-value"><span>价值：</span>业务人员在一个页面中集中查看多维度门店经营全貌</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case1.mov"></video></div>
       </div>
       <div class="case-card superapp">
         <div class="case-num" style="color:var(--green);">案例 2</div>
         <h4>私立大学学费与投资回报测算器</h4>
         <p>面向学生和家长提供自助测算工具——选择专业查看学费奖学金、做 what-if 分析、估算回本周期，通过表单维护政策信息。</p>
         <div class="case-value"><span>价值：</span>让数据测算变成可交互的自助工具，降低咨询成本</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case2.mov"></video></div>
       </div>
       <div class="case-card superapp">
         <div class="case-num" style="color:var(--green);">案例 3</div>
         <h4>经销商商品组货工具</h4>
         <p>用户输入预算金额，系统根据商品库存和经营数据自动生成推荐组货方案，确认后下载订货方案，后续可扩展为订货单。</p>
         <div class="case-value"><span>价值：</span>把商品运营的测算过程变成可交互的组货决策工具</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case3.mov"></video></div>
       </div>
       <div class="case-card superapp">
         <div class="case-num" style="color:var(--green);">案例 4</div>
         <h4>灵活填报页面</h4>
         <p>定制化页面布局，支持读取和写入 BI 表单数据，提供更适合业务场景的录入、查看和编辑体验，可与图表和筛选器结合。</p>
         <div class="case-value"><span>价值：</span>填报和分析在同一个页面中完成，打通数据采集到分析的链路</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case4.mov"></video></div>
       </div>
       <div class="case-card superapp">
         <div class="case-num" style="color:var(--green);">案例 5</div>
         <h4>数字孪生大屏</h4>
         <p>适用于管理层汇报和供应链巡视——读取 BI 数据，展示核心指标、流程节点、商品流转或经营状态，支持动态数据刷新。</p>
         <div class="case-value"><span>价值：</span>用更灵活的页面承载核心指标和业务流程，增强展示效果</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case5.mov"></video></div>
       </div>
       <div class="case-card superapp">
         <div class="case-num" style="color:var(--green);">案例 6</div>
         <h4>门店异常处理助手联通飞书</h4>
         <p>展示异常门店卡片列表 → 点击查看异常详情和建议动作 → 一键推送门店名称、异常原因和处理建议到飞书群。</p>
         <div class="case-value"><span>价值：</span>异常发现和业务协作连接，从"看到问题"到"组织处理"形成闭环</div>
+        <div class="case-video-toggle" onclick="toggleVideo(this)">▶ 查看演示 <span class="arrow">▶</span></div>
+        <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case6.mov"></video></div>
       </div>
     </div>
   </div>
@@ -783,6 +832,12 @@ body {
 </div>
 
 <script>
+function toggleVideo(el) {
+  el.classList.toggle('open');
+  var player = el.nextElementSibling;
+  player.classList.toggle('show');
+}
+
 function switchTab(tabId) {
   // Update buttons
   document.querySelectorAll('.tab-btn').forEach(function(btn) {
