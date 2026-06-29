@@ -98,6 +98,7 @@ body {
 /* Content */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 .tab-content { display: none; padding: 40px 0 48px; animation: fadeIn 0.25s ease; }
+.bottom-section { display: block; padding: 40px 0 48px; }
 .tab-content.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -276,8 +277,6 @@ body {
     <button class="tab-btn" onclick="switchTab('superapp')"><span class="tab-icon">🧩</span> SuperApp</button>
     <button class="tab-btn" onclick="switchTab('metric')"><span class="tab-icon">🎯</span> 指标中心</button>
     <button class="tab-btn" onclick="switchTab('decidex')"><span class="tab-icon">🧠</span> DecideX</button>
-    <button class="tab-btn" onclick="switchTab('roles')"><span class="tab-icon">🎭</span> 角色推荐</button>
-    <button class="tab-btn" onclick="switchTab('quickstart')"><span class="tab-icon">🚀</span> 快速上手</button>
   </div>
 </nav>
 
@@ -641,8 +640,10 @@ body {
   </div>
 </div>
 
+<div style="border-top:2px solid var(--gray-200);margin:20px 0 0;"></div>
+
 <!-- ====== 角色推荐 ====== -->
-<div id="tab-roles" class="tab-content">
+<div id="section-roles" class="bottom-section">
   <div class="section-title"><span>🎭</span> 不同角色的 AI 产品组合</div>
   <div class="section-subtitle">看谁适合用哪个</div>
 
@@ -671,7 +672,7 @@ body {
 </div>
 
 <!-- ====== 快速上手 ====== -->
-<div id="tab-quickstart" class="tab-content">
+<div id="section-quickstart" class="bottom-section">
   <div class="section-title"><span>🚀</span> 三步上手 guancli</div>
   <div class="section-subtitle">安装到第一条查询，30 秒</div>
 
@@ -710,7 +711,7 @@ function switchTab(tabId) {
   });
   // Find the clicked button and activate it
   var buttons = document.querySelectorAll('.tab-btn');
-  var allTabs = ['overview','guancli','chatbi','superapp','metric','decidex','roles','quickstart'];
+  var allTabs = ['overview','guancli','chatbi','superapp','metric','decidex'];
   var idx = allTabs.indexOf(tabId);
   if (idx >= 0 && idx < buttons.length) {
     buttons[idx].classList.add('active');
