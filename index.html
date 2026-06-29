@@ -369,15 +369,46 @@ body {
     </tbody>
   </table>
 
-  <div class="code-block" style="margin-top:20px;">
-<span class="comment"># 一个典型的工作流：从零到拿到数据，只需几行命令</span>
-<span class="cmd">guancli</span> auth login                                <span class="comment"># 1. 登录认证</span>
-<span class="cmd">guancli</span> ds search <span class="arg">"销售订单"</span>                        <span class="comment"># 2. 搜索数据集</span>
-<span class="cmd">guancli</span> ds preview <span class="arg">abc123</span> --limit <span class="arg">20</span>              <span class="comment"># 3. 预览数据</span>
-<span class="cmd">guancli</span> ds execute-sql -inputs <span class="arg">abc123</span> \
-  -sql <span class="arg">'SELECT COUNT(*) as total FROM `销售订单`'</span>    <span class="comment"># 4. 自由 SQL 查询</span>
-<span class="cmd">guancli</span> chatbi query --theme-name <span class="arg">"经营"</span> \
-  --message <span class="arg">"分析最近30天各品类GMV变化"</span>           <span class="comment"># 5. ChatBI 问数</span>
+  <p style="font-size:14px;font-weight:600;color:var(--gray-700);margin:24px 0 0 0;">📐 一个典型的工作流：从零到拿到数据，只需几行命令</p>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin:8px 0 0 0;">
+    <div class="code-block" style="margin:0;">
+      <span class="comment"># 步骤 1</span>
+      <br>
+      <span class="cmd">guancli</span> auth login
+      <br>
+      <span class="comment"># 登录认证，一次配置后续无需重复</span>
+    </div>
+    <div class="code-block" style="margin:0;">
+      <span class="comment"># 步骤 2</span>
+      <br>
+      <span class="cmd">guancli</span> ds search <span class="arg">"销售订单"</span>
+      <br>
+      <span class="comment"># 按名称模糊搜索数据集</span>
+    </div>
+    <div class="code-block" style="margin:0;">
+      <span class="comment"># 步骤 3</span>
+      <br>
+      <span class="cmd">guancli</span> ds preview <span class="arg">abc123</span> --limit <span class="arg">20</span>
+      <br>
+      <span class="comment"># 预览数据集前 20 行，快速了解数据长什么样</span>
+    </div>
+    <div class="code-block" style="margin:0;">
+      <span class="comment"># 步骤 4</span>
+      <br>
+      <span class="cmd">guancli</span> ds execute-sql -inputs <span class="arg">abc123</span> \
+        -sql <span class="arg">'SELECT COUNT(*) as total FROM `销售订单`'</span>
+      <br>
+      <span class="comment"># 直接执行 SQL 查询，灵活分析</span>
+    </div>
+    <div class="code-block" style="margin:0;">
+      <span class="comment"># 步骤 5</span>
+      <br>
+      <span class="cmd">guancli</span> chatbi query --theme-name <span class="arg">"经营"</span> \
+        --message <span class="arg">"分析最近30天各品类GMV变化"</span>
+      <br>
+      <span class="comment"># 自然语言问数，中文聊天即可分析</span>
+    </div>
   </div>
 
   <div class="highlight-box" style="background: linear-gradient(135deg, #e8ecff 0%, #f5f3ff 100%); border-color: #a5b4fc;">
