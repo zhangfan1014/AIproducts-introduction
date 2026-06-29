@@ -271,11 +271,8 @@ body {
 <!-- Tab Navigation -->
 <nav class="tab-nav">
   <div class="tab-nav-inner">
-    <button class="tab-btn active" onclick="switchTab('overview')"><span class="tab-icon">🧩</span> 产品全景</button>
-    <button class="tab-btn" onclick="switchTab('guancli')"><span class="tab-icon">⌨️</span> guancli</button>
-    <button class="tab-btn" onclick="switchTab('chatbi')"><span class="tab-icon">💬</span> ChatBI</button>
+    <button class="tab-btn active" onclick="switchTab('guancli')"><span class="tab-icon">⌨️</span> guancli</button>
     <button class="tab-btn" onclick="switchTab('superapp')"><span class="tab-icon">🧩</span> SuperApp</button>
-    <button class="tab-btn" onclick="switchTab('metric')"><span class="tab-icon">🎯</span> 指标中心</button>
     <button class="tab-btn" onclick="switchTab('decidex')"><span class="tab-icon">🧠</span> DecideX</button>
   </div>
 </nav>
@@ -283,52 +280,8 @@ body {
 <!-- Tab Contents -->
 <div class="container">
 
-<!-- ====== 产品全景 ====== -->
-<div id="tab-overview" class="tab-content active">
-  <div class="section-title"><span>🧩</span> 产品全景</div>
-  <div class="section-subtitle">观远 AI 产品矩阵覆盖 <span class="hl-key">数据接入 → 分析建模 → 决策行动</span> 全链路</div>
-  <div class="overview-grid">
-    <div class="product-card">
-      <div class="icon icon-blue">⌨️</div>
-      <h3>guancli</h3>
-      <p class="card-desc">BI 命令行工具，10+ 命令直连 BI API</p>
-      <div class="tags"><span class="tag tag-blue">CLI</span><span class="tag tag-green">查询分析</span></div>
-    </div>
-    <div class="product-card">
-      <div class="icon icon-green">💬</div>
-      <h3>ChatBI</h3>
-      <p class="card-desc">自然语言问数 & 智能洞察分析</p>
-      <div class="tags"><span class="tag tag-green">L1问数</span><span class="tag tag-purple">L2洞察</span></div>
-    </div>
-    <div class="product-card">
-      <div class="icon icon-purple">🧩</div>
-      <h3>SuperApp</h3>
-      <p class="card-desc">BI 平台内嵌扩展应用开发框架</p>
-      <div class="tags"><span class="tag tag-purple">低代码</span><span class="tag tag-blue">BI集成</span></div>
-    </div>
-    <div class="product-card">
-      <div class="icon icon-orange">🎯</div>
-      <h3>指标中心</h3>
-      <p class="card-desc">统一指标管理与归因分析</p>
-      <div class="tags"><span class="tag tag-orange">指标平台</span><span class="tag tag-blue">归因</span></div>
-    </div>
-    <div class="product-card">
-      <div class="icon icon-red">🧠</div>
-      <h3>DecideX</h3>
-      <p class="card-desc">从"看数据"到"做决策"的 AI 引擎</p>
-      <div class="tags"><span class="tag tag-green">决策智能</span></div>
-    </div>
-  </div>
-  <div class="highlight-box">
-    <h4>💡 一句话理解各产品定位</h4>
-    <p>
-      <strong>guancli</strong> = 开发者手中的 BI 扳手 · <strong>ChatBI</strong> = 对话式数据助手 · <strong>SuperApp</strong> = BI 里的自定义应用工厂 · <strong>指标中心</strong> = 全公司统一的数据语言 · <strong>DecideX</strong> = 从"看到"到"做到"的 AI 大脑
-    </p>
-  </div>
-</div>
-
 <!-- ====== guancli ====== -->
-<div id="tab-guancli" class="tab-content">
+<div id="tab-guancli" class="tab-content active">
   <div class="section-title"><span>⌨️</span> guancli —— BI 超级命令行</div>
   <div class="section-subtitle">不打开 BI 网页，也能搞定一切——观远 BI 面向开发者与高级用户的命令行瑞士军刀</div>
 
@@ -452,46 +405,6 @@ body {
   </div>
 </div>
 
-<!-- ====== ChatBI ====== -->
-<div id="tab-chatbi" class="tab-content">
-  <div class="section-title"><span>💬</span> ChatBI —— 自然语言交互式 BI</div>
-  <div class="section-subtitle">让业务人员用中文聊天就能完成数据分析，无需学习报表操作</div>
-
-  <div class="two-col" style="margin-bottom:24px;">
-    <div class="product-card" style="box-shadow:none;border:2px solid #d1fae5;">
-      <div class="icon icon-green">📊</div>
-      <h3>L1 智能问数</h3>
-      <p style="font-size:13.5px;color:var(--gray-700);line-height:1.7;">输入自然语言问题，ChatBI 自动理解意图、匹配数据主题、生成查询并返回结构化结果。支持时间范围、聚合计算、分组对比等常见分析需求。</p>
-      <div class="code-block" style="font-size:12px;margin-top:12px;">
-<span class="cmd">guancli</span> chatbi query \
-  --theme-name <span class="arg">"经营主题"</span> \
-  --message <span class="arg">"最近30天各地区营收Top 10"</span>
-      </div>
-    </div>
-    <div class="product-card" style="box-shadow:none;border:2px solid #ede9fe;">
-      <div class="icon icon-purple">🔍</div>
-      <h3>L2 智能洞察</h3>
-      <p style="font-size:13.5px;color:var(--gray-700);line-height:1.7;">不仅回答问题，还会<span class="hl-new">自动分析原因</span>——为什么营收下降？哪个品类拖了后腿？环比变化的主要驱动因素是什么？支持 multi_agent 高级分析模式。</p>
-      <div class="code-block" style="font-size:12px;margin-top:12px;">
-<span class="cmd">guancli</span> chatbi insight \
-  --theme-id <span class="arg">"theme_123"</span> \
-  --message <span class="arg">"分析营收下降原因"</span> \
-  --agent-mode <span class="arg">single_agent</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="highlight-box">
-    <h4>🎯 ChatBI 核心价值</h4>
-    <p>
-      <strong>零门槛</strong>：业务人员无需培训，中文对话即可分析数据。<br>
-      <strong>快响应</strong>：问题到答案通常在秒级，远快于传统报表拖拽。<br>
-      <strong>深洞察</strong>：L2 模式自动发现异常、拆解归因、生成结论。<br>
-      <strong>全集成</strong>：ChatBI 通过 <code>guancli chatbi</code> 一行命令即可调用，也可以在 BI 网页端直接使用。
-    </p>
-  </div>
-</div>
-
 <!-- ====== SuperApp ====== -->
 <div id="tab-superapp" class="tab-content">
   <div class="section-title"><span>🧩</span> SuperApp —— BI 内的自定义应用</div>
@@ -545,54 +458,6 @@ body {
   <div class="highlight-box" style="background: linear-gradient(135deg, #ffe4e6 0%, #fff1f2 100%); border-color: #fecdd3;">
     <h4>⚠️ 重要提示</h4>
     <p>SuperApp 目前处于<span class="hl-warn">测试阶段，免费使用，后续会逐步收费</span>。在向客户推荐时请提前告知，让客户有预期。</p>
-  </div>
-</div>
-
-<!-- ====== 指标中心 ====== -->
-<div id="tab-metric" class="tab-content">
-  <div class="section-title"><span>🎯</span> 指标中心 (Metric Center)</div>
-  <div class="section-subtitle">从"各说各话"到"同一种语言"——企业级指标定义、管理与归因平台</div>
-
-  <div class="cap-list">
-    <div class="cap-item">
-      <div class="num">1</div>
-      <div>
-        <h4>指标定义标准化</h4>
-        <p>支持 <span class="hl-key">原子指标</span>（最细粒度度量）、<span class="hl-key">复合指标</span>（多指标运算）和 <span class="hl-key">衍生指标</span>（带维度/时间下钻），建立企业统一的指标字典。</p>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="num">2</div>
-      <div>
-        <h4>泛化查询（Advanced Query）</h4>
-        <p>一个指标 ID 即可按任意维度查询——同比、环比、累计、占比、TopN、最近 N 周期……一行命令搞定复杂对比分析。需要 BI 版本 ≥ 8.2.1。</p>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="num">3</div>
-      <div>
-        <h4>指标树归因</h4>
-        <p>建立指标的层级关系树（如 总营收 → 毛利 → 品类毛利 → 单品毛利），自动计算各层级贡献度，一眼看出变化根因。</p>
-        <div class="code-block" style="margin-top:8px;font-size:11.5px;">
-<span class="cmd">guancli</span> metric query <span class="arg">metric_001</span> --dim <span class="arg">城市</span> --compare <span class="arg">last_year</span>
-<span class="cmd">guancli</span> metric_attribution query <span class="arg">tree_001</span> --period <span class="arg">2026-05</span>
-        </div>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="num">4</div>
-      <div>
-        <h4>公共维度</h4>
-        <p>将多个数据集的相同字段关联为统一的公共维度（如"城市""品类"），一个维度跨数据集使用，保证一致性和可复用性。</p>
-      </div>
-    </div>
-    <div class="cap-item">
-      <div class="num">5</div>
-      <div>
-        <h4>数据集对指标的反查</h4>
-        <p>给定一个数据集 ID，通过 <code>guancli metric by-dataset &lt;dsId&gt;</code> 一键找出所有使用该数据集的原子指标和下游复合/衍生指标，方便评估数据集变更的影响范围。</p>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -711,7 +576,7 @@ function switchTab(tabId) {
   });
   // Find the clicked button and activate it
   var buttons = document.querySelectorAll('.tab-btn');
-  var allTabs = ['overview','guancli','chatbi','superapp','metric','decidex'];
+  var allTabs = ['guancli','superapp','decidex'];
   var idx = allTabs.indexOf(tabId);
   if (idx >= 0 && idx < buttons.length) {
     buttons[idx].classList.add('active');
