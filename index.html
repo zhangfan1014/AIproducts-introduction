@@ -574,67 +574,162 @@ body {
 <!-- ====== SuperApp ====== -->
 <div id="tab-superapp" class="tab-content">
   <div class="section-title"><span>🧩</span> SuperApp —— BI 内的自定义应用</div>
-  <div class="section-subtitle">在 BI 平台内构建定制化业务管理应用，走 BI 鉴权、用 BI 数据、受 BI 权限管控</div>
+  <div class="section-subtitle">在 BI 平台内构建定制化业务应用，走 BI 鉴权、用 BI 数据、受 BI 权限管控——前端代码完全自由</div>
 
+  <!-- 是什么 -->
+  <div class="highlight-box" style="background: linear-gradient(135deg, #d1fae5 0%, #f0fdf4 100%); border-color: #6ee7b7;">
+    <h4>💡 SuperApp 是什么？</h4>
+    <p>SuperApp 是<strong>观远 BI 平台内的扩展应用框架</strong>。它不走仪表板卡片机制，而是让你用<strong>完全自定义的前端代码</strong>构建应用——想怎么交互就怎么写。鉴权、数据、权限全走 BI 通道，发布到<strong>BI 管理中心 &gt; 扩展应用</strong>后，BI 用户即可直接使用。<br><br>
+    核心定位：<span class="hl-key">BI 平台内的应用开发平台</span>，不是卡片，不是仪表板，是能独立承载业务逻辑的应用。</p>
+  </div>
+
+  <!-- 架构流程 -->
+  <h4 style="font-size:15px;font-weight:600;margin:24px 0 12px;">🏗️ SuperApp 的组成架构</h4>
   <div class="arch-flow" style="margin-bottom:28px;">
     <div class="arch-node">
-      <h5>📦 guancli</h5>
-      <p>CLI 工具</p>
-    </div>
-    <div class="arch-arrow">→</div>
-    <div class="arch-node">
-      <h5>🏗️ 开发框架</h5>
-      <p>前端 + BI API</p>
+      <h5>📦 guancli CLI</h5>
+      <p>创建脚手架<br>发布部署</p>
     </div>
     <div class="arch-arrow">→</div>
     <div class="arch-node" style="background:#d1fae5;border-color:var(--green);">
-      <h5>🚀 SuperApp</h5>
-      <p>发布到 BI 平台</p>
+      <h5>🏗️ 开发框架</h5>
+      <p>前端代码<br>+ BI API 调用</p>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node" style="background:#d1fae5;border-color:var(--green);">
+      <h5>🚀 Coding Agent</h5>
+      <p>AI 辅助生成<br>前端代码</p>
     </div>
     <div class="arch-arrow">→</div>
     <div class="arch-node" style="background:#fef3c7;border-color:var(--orange);">
       <h5>👤 BI 管理中心</h5>
-      <p>用户使用</p>
+      <p>生成 SuperApp ID<br>用户访问使用</p>
     </div>
   </div>
 
+  <div class="two-col" style="margin-bottom:32px;">
+    <div>
+      <h4 style="font-size:15px;margin-bottom:12px;font-weight:600;">🔐 鉴权机制</h4>
+      <ul style="font-size:13.5px;color:var(--gray-700);line-height:2;padding-left:20px;">
+        <li>必须配置 BI 账密 + UID Token</li>
+        <li>UID Token 从 BI 域 Cookie 中获取</li>
+        <li>数据请求走 <code>Vite_BI_Host</code> 后端通道</li>
+        <li>所有数据访问受 BI 权限体系管控</li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="font-size:15px;margin-bottom:12px;font-weight:600;">🛠️ 技术栈与自由度</h4>
+      <ul style="font-size:13.5px;color:var(--gray-700);line-height:2;padding-left:20px;">
+        <li>前端框架不限：Vue / React / 原生 JS 均可</li>
+        <li>UI 完全自定义：不走卡片组件，想画什么画什么</li>
+        <li>交互完全自定义：筛选、下钻、弹窗、表单、图表任意实现</li>
+        <li>数据源：BI 数据集 + 自定义 API 双通道</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 核心能力 -->
+  <h4 style="font-size:15px;font-weight:600;margin-bottom:14px;">🧰 五大核心能力</h4>
+  <div class="cap-list" style="margin-bottom:28px;">
+    <div class="cap-item" style="border-left: 3px solid var(--green);">
+      <div class="num" style="background:#d1fae5;color:#065f46;">1</div>
+      <div>
+        <h4>BI 数据深度集成</h4>
+        <p>直接读取 BI 数据集，支持筛选、聚合、下钻等完整 BI 查询能力。数据权限自动继承 BI 管控体系，无需额外配置。</p>
+      </div>
+    </div>
+    <div class="cap-item" style="border-left: 3px solid var(--green);">
+      <div class="num" style="background:#d1fae5;color:#065f46;">2</div>
+      <div>
+        <h4>完全自定义 UI 与交互</h4>
+        <p>摆脱仪表板卡片约束——桑基图、关系图、热力图、自定义表单、多级联动、决策树，任何交互逻辑都能实现。</p>
+      </div>
+    </div>
+    <div class="cap-item" style="border-left: 3px solid var(--green);">
+      <div class="num" style="background:#d1fae5;color:#065f46;">3</div>
+      <div>
+        <h4>外链服务打通</h4>
+        <p>在 SuperApp 内调用飞书消息、企微机器人、邮件等外部服务 API，实现 BI 数据驱动的协作闭环。比如一键推送异常到群聊。</p>
+      </div>
+    </div>
+    <div class="cap-item" style="border-left: 3px solid var(--green);">
+      <div class="num" style="background:#d1fae5;color:#065f46;">4</div>
+      <div>
+        <h4>AI 辅助开发</h4>
+        <p>通过 Coding Agent 描述需求即可生成前端代码，非开发人员也能参与 SuperApp 构建。专业开发者则可用 AI 加速开发。</p>
+      </div>
+    </div>
+    <div class="cap-item" style="border-left: 3px solid var(--green);">
+      <div class="num" style="background:#d1fae5;color:#065f46;">5</div>
+      <div>
+        <h4>发布即用，无需部署</h4>
+        <p><code class="cmd">guancli app create</code> 创建项目 → <code class="cmd">guancli app publish</code> 发布 → BI 管理中心生成 SuperApp ID → 用户即可访问。无需额外服务器和域名。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 典型工作流 -->
+  <p style="font-size:14px;font-weight:600;color:var(--gray-700);margin:28px 0 0 0;">📐 搭建一个 SuperApp 的完整流程</p>
+  <div style="display:flex;flex-direction:column;gap:10px;margin:8px 0 0 0;">
+    <div class="code-block" style="margin:0;border-left:3px solid var(--green);">
+      <span class="comment"># 步骤 1：用 guancli 创建 SuperApp 项目脚手架</span>
+      <br>
+      <span class="cmd">guancli</span> app create --name <span class="arg">"门店异常助手"</span>
+      <br>
+      <span class="comment"># 在本地生成一个完整的 SuperApp 项目模板</span>
+    </div>
+    <div class="code-block" style="margin:0;border-left:3px solid var(--green);">
+      <span class="comment"># 步骤 2：用 Coding Agent 生成前端页面代码</span>
+      <br>
+      <span class="comment"># 描述需求：展示异常门店列表、支持筛选、点击查看详情、一键推送到飞书</span>
+      <br>
+      <span class="comment"># Agent 自动生成 HTML/JS/CSS，直接放入项目目录</span>
+    </div>
+    <div class="code-block" style="margin:0;border-left:3px solid var(--green);">
+      <span class="comment"># 步骤 3：本地调试确认功能正常</span>
+      <br>
+      <span class="cmd">guancli</span> app dev
+      <br>
+      <span class="comment"># 启动本地开发服务器，可以在浏览器中预览效果</span>
+    </div>
+    <div class="code-block" style="margin:0;border-left:3px solid var(--green);">
+      <span class="comment"># 步骤 4：发布到 BI 平台</span>
+      <br>
+      <span class="cmd">guancli</span> app publish
+      <br>
+      <span class="comment"># 上传到 BI 管理中心 &gt; 扩展应用，生成 SuperApp ID，用户即可访问</span>
+    </div>
+  </div>
+
+  <!-- 典型应用场景 -->
+  <h4 style="font-size:15px;font-weight:600;margin:28px 0 12px;">🎯 典型应用场景</h4>
   <div class="scenario-grid">
     <div class="scenario-card">
-      <h4>🏭 业务系统集成</h4>
-      <p class="who">适合：需要 BI 数据驱动的业务系统</p>
-      <p>将 F2C 智能排产、门店智能选品等业务功能内嵌到 BI 平台，统一入口、统一鉴权。</p>
+      <h4>📊 数据应用</h4>
+      <p class="who">适合：需要深度交互的数据分析页面</p>
+      <p>门店经营全景、供应链巡检、客户360视图——在 BI 内构建可交互的数据应用，支持筛选、排序、下钻、图表联动。</p>
     </div>
     <div class="scenario-card">
-      <h4>📋 自定义决策面板</h4>
-      <p class="who">适合：管理层专属决策视图</p>
-      <p>打造专属的决策仪表板，融合多数据源、多层级数据，按角色呈现不同视角。</p>
+      <h4>🧮 测算工具</h4>
+      <p class="who">适合：需要 what-if 分析的决策辅助</p>
+      <p>学费回报测算、商品组货方案生成、促销 ROI 模拟——把 BI 数据变成可交互的测算器，用户输入条件即时出结果。</p>
     </div>
     <div class="scenario-card">
-      <h4>🔄 数据回写工具</h4>
-      <p class="who">适合：需要"不仅看、还要写"的场景</p>
-      <p>在 BI 平台内直接提供数据审批、填报、回写能力，打通"分析-决策-执行"闭环。</p>
+      <h4>📝 填报页面</h4>
+      <p class="who">适合：定制化数据录入与管理</p>
+      <p>灵活布局的表单录入页，支持读取和写入 BI 表单数据，录入和分析同在一个页面，打通采集到分析的链路。</p>
     </div>
     <div class="scenario-card">
-      <h4>📊 静态报告门户</h4>
-      <p class="who">适合：定期对外分发的报告</p>
-      <p>将复杂报告变成网页应用，客户无需登录 BI，直接通过链接查看。</p>
+      <h4>🔗 协作闭环</h4>
+      <p class="who">适合：BI 分析结果需要推进到执行</p>
+      <p>异常检测 → 查看详情 → 一键推送到飞书/企微群。数据发现问题后直接组织跟进，不离开 BI 平台。</p>
     </div>
   </div>
 
-  <div class="highlight-box" style="background: linear-gradient(135deg, #ffe4e6 0%, #fff1f2 100%); border-color: #fecdd3;">
-    <h4>⚠️ 重要提示</h4>
-    <p>SuperApp 目前处于<span class="hl-warn">测试阶段，免费使用，后续会逐步收费</span>。在向客户推荐时请提前告知，让客户有预期。</p>
-  </div>
-
-  <div class="highlight-box" style="margin-top:16px;background:#f8fafc;border-color:#e2e8f0;">
-    <h4>📚 更多资源</h4>
-    <p>官方文档：<a href="https://docs.guandata.com/product/bi/superapp" style="color:var(--primary);" target="_blank">如何快速搭建一个超级应用</a> · <a href="https://docs.guandata.com/product/bi/guancli" style="color:var(--primary);" target="_blank">GuanCLI 使用指南</a></p>
-  </div>
-
-  <!-- SuperApp 参考案例 -->
-  <div class="case-section">
+  <!-- 参考案例 -->
+  <div class="case-section" style="margin-top:28px;">
     <div class="case-section-title"><span>📋</span> 超级应用参考案例：让 BI 数据进入业务动作</div>
-    <p style="font-size:13px;color:var(--gray-500);margin-bottom:14px;">推荐使用场景：筛选、测算、填报、方案生成、大屏展示、消息推送</p>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:14px;">6 个典型案例，覆盖数据应用、测算工具、填报页面、协作闭环四大场景</p>
 
     <div class="case-grid">
       <div class="case-card superapp">
@@ -686,6 +781,17 @@ body {
         <div class="case-video-player"><video controls preload="none" src="https://53da326124374449885f87c911c7d751.app.codebuddy.work/superapp_case6.mov"></video></div>
       </div>
     </div>
+  </div>
+
+  <!-- 提示与资源 -->
+  <div class="highlight-box" style="background: linear-gradient(135deg, #ffe4e6 0%, #fff1f2 100%); border-color: #fecdd3;margin-top:28px;">
+    <h4>⚠️ 重要提示</h4>
+    <p>SuperApp 目前处于<span class="hl-warn">测试阶段，免费使用，后续会逐步收费</span>。在向客户推荐时请提前告知，让客户有预期。</p>
+  </div>
+
+  <div class="highlight-box" style="margin-top:16px;background:#f8fafc;border-color:#e2e8f0;">
+    <h4>📚 更多资源</h4>
+    <p>官方文档：<a href="https://docs.guandata.com/product/bi/superapp" style="color:var(--primary);" target="_blank">如何快速搭建一个超级应用</a> · <a href="https://docs.guandata.com/product/bi/guancli" style="color:var(--primary);" target="_blank">GuanCLI 使用指南</a></p>
   </div>
 </div>
 
