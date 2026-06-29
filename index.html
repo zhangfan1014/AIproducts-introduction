@@ -251,6 +251,54 @@ body {
 .hl-new { background: #d1fae5; color: #065f46; padding: 1px 6px; border-radius: 4px; font-weight: 500; }
 .hl-warn { background: #fee2e2; color: #991b1b; padding: 1px 6px; border-radius: 4px; font-weight: 500; }
 
+/* Case Cards */
+.case-section { margin-top: 32px; }
+.case-section-title {
+  font-size: 16px; font-weight: 700; margin-bottom: 6px;
+  color: var(--gray-900); display: flex; align-items: center; gap: 6px;
+}
+.case-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px; margin: 12px 0;
+}
+.case-card {
+  background: var(--card-bg); border-radius: 10px;
+  padding: 18px 18px 16px; box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200); border-left: 3px solid var(--primary);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.case-card.superapp { border-left-color: var(--green); }
+.case-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.case-card .case-num {
+  font-size: 11px; font-weight: 600; color: var(--primary);
+  letter-spacing: 0.5px; margin-bottom: 4px;
+}
+.case-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+.case-card p { font-size: 13px; color: var(--gray-700); line-height: 1.65; }
+.case-card .case-value {
+  margin-top: 10px; font-size: 12px; color: var(--green); font-weight: 500;
+  background: #f0fdf4; padding: 6px 10px; border-radius: 6px;
+  line-height: 1.5;
+}
+.case-card .case-value span { color: #065f46; }
+
+/* Comparison Table */
+.compare-section { margin-top: 36px; }
+.compare-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow);
+  margin: 12px 0;
+}
+.compare-table thead th {
+  background: #f1f5f9; padding: 10px 14px; text-align: left;
+  font-weight: 600; font-size: 12.5px; color: var(--gray-700);
+}
+.compare-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--gray-200);
+  vertical-align: top; line-height: 1.6;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+
 /* Footer */
 .footer {
   text-align: center; padding: 28px 24px;
@@ -433,6 +481,57 @@ body {
       </tr>
     </table>
   </div>
+
+  <!-- GuanCLI 参考案例 -->
+  <div class="case-section">
+    <div class="case-section-title"><span>📋</span> GuanCLI 参考案例：让 Agent 使用 BI 资产</div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:14px;">推荐使用场景：自动分析、口径解释、ETL 排查、日报生成、多工具自动化</p>
+
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-num">案例 1</div>
+        <h4>华东门店销售与会员消费占比分析</h4>
+        <p>Agent 通过 GuanCLI 读取门店主数据和日销售汇总，自动完成华东 45 家门店 4 月销售分析，输出门店排名、会员消费占比和异常线索。</p>
+        <div class="case-value"><span>价值：</span>减少人工找表、筛选、确认字段和计算指标的工作量</div>
+      </div>
+      <div class="case-card">
+        <div class="case-num">案例 2</div>
+        <h4>从分析结果生成经营摘要</h4>
+        <p>Agent 将 BI 查询结果转换为业务语言，输出区域销售总结、Top 门店识别、异常门店洞察及下一步分析建议，可直接用于汇报。</p>
+        <div class="case-value"><span>价值：</span>数据结果直接进入汇报和决策语境，减少二次整理成本</div>
+      </div>
+      <div class="case-card">
+        <div class="case-num">案例 3</div>
+        <h4>页面 / 卡片指标口径解读</h4>
+        <p>自动生成"看板说明书"——说明页面面向的业务角色，解释每张卡片的数据集、维度、指标、计算口径、筛选条件和排序规则。</p>
+        <div class="case-value"><span>价值：</span>帮助业务、分析师和实施团队更快对齐口径，降低沟通成本</div>
+      </div>
+      <div class="case-card">
+        <div class="case-num">案例 4</div>
+        <h4>ETL 加工链路排查</h4>
+        <p>GuanCLI 读取 ETL 加工链路，Agent 自动定位过滤、聚合、JOIN 等可能影响指标的关键节点，给出下一步排查路径。</p>
+        <div class="case-value"><span>价值：</span>把"人工翻 ETL"变成"Agent 生成排查路径"，降低数据排查门槛</div>
+      </div>
+      <div class="case-card">
+        <div class="case-num">案例 5</div>
+        <h4>生成异常门店清单数据集</h4>
+        <p>用 GuanETL 将异常识别规则沉淀为可复用数据集，包含业务日期、门店信息、销售额、异常优先级、建议动作等字段。</p>
+        <div class="case-value"><span>价值：</span>Agent 的识别规则沉淀为统一数据资产，后续所有展示和协作基于同一口径</div>
+      </div>
+      <div class="case-card">
+        <div class="case-num">案例 6</div>
+        <h4>生成门店经营异常分析页</h4>
+        <p>基于异常清单数据集自动生成分析仪表板，展示异常规模、优先级分布、Top 门店，支持按日期、省市、店型筛选。</p>
+        <div class="case-value"><span>价值：</span>一次性分析沉淀为可持续查看的仪表板，帮助运营团队更快定位重点门店</div>
+      </div>
+      <div class="case-card">
+        <div class="case-num">案例 7</div>
+        <h4>GuanCLI + 飞书 CLI 生成并发送日报</h4>
+        <p>GuanCLI 读取经营数据 → Agent 生成异常日报和群摘要 → 飞书 CLI 创建日报文档 → 向指定群发送摘要和文档链接。</p>
+        <div class="case-value"><span>价值：</span>BI 分析结果带到真实协作工具中，发现问题和组织跟进连在一起</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ====== SuperApp ====== -->
@@ -493,6 +592,51 @@ body {
   <div class="highlight-box" style="margin-top:16px;background:#f8fafc;border-color:#e2e8f0;">
     <h4>📚 更多资源</h4>
     <p>官方文档：<a href="https://docs.guandata.com/product/bi/superapp" style="color:var(--primary);" target="_blank">如何快速搭建一个超级应用</a> · <a href="https://docs.guandata.com/product/bi/guancli" style="color:var(--primary);" target="_blank">GuanCLI 使用指南</a></p>
+  </div>
+
+  <!-- SuperApp 参考案例 -->
+  <div class="case-section">
+    <div class="case-section-title"><span>📋</span> 超级应用参考案例：让 BI 数据进入业务动作</div>
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:14px;">推荐使用场景：筛选、测算、填报、方案生成、大屏展示、消息推送</p>
+
+    <div class="case-grid">
+      <div class="case-card superapp">
+        <div class="case-num" style="color:var(--green);">案例 1</div>
+        <h4>门店经营分析数据应用</h4>
+        <p>把门店经营数据做成可持续访问的数据应用，展示关键指标、门店排名、趋势分析和明细表，支持按区域和日期筛选。</p>
+        <div class="case-value"><span>价值：</span>业务人员在一个页面中集中查看多维度门店经营全貌</div>
+      </div>
+      <div class="case-card superapp">
+        <div class="case-num" style="color:var(--green);">案例 2</div>
+        <h4>私立大学学费与投资回报测算器</h4>
+        <p>面向学生和家长提供自助测算工具——选择专业查看学费奖学金、做 what-if 分析、估算回本周期，通过表单维护政策信息。</p>
+        <div class="case-value"><span>价值：</span>让数据测算变成可交互的自助工具，降低咨询成本</div>
+      </div>
+      <div class="case-card superapp">
+        <div class="case-num" style="color:var(--green);">案例 3</div>
+        <h4>经销商商品组货工具</h4>
+        <p>用户输入预算金额，系统根据商品库存和经营数据自动生成推荐组货方案，确认后下载订货方案，后续可扩展为订货单。</p>
+        <div class="case-value"><span>价值：</span>把商品运营的测算过程变成可交互的组货决策工具</div>
+      </div>
+      <div class="case-card superapp">
+        <div class="case-num" style="color:var(--green);">案例 4</div>
+        <h4>灵活填报页面</h4>
+        <p>定制化页面布局，支持读取和写入 BI 表单数据，提供更适合业务场景的录入、查看和编辑体验，可与图表和筛选器结合。</p>
+        <div class="case-value"><span>价值：</span>填报和分析在同一个页面中完成，打通数据采集到分析的链路</div>
+      </div>
+      <div class="case-card superapp">
+        <div class="case-num" style="color:var(--green);">案例 5</div>
+        <h4>数字孪生大屏</h4>
+        <p>适用于管理层汇报和供应链巡视——读取 BI 数据，展示核心指标、流程节点、商品流转或经营状态，支持动态数据刷新。</p>
+        <div class="case-value"><span>价值：</span>用更灵活的页面承载核心指标和业务流程，增强展示效果</div>
+      </div>
+      <div class="case-card superapp">
+        <div class="case-num" style="color:var(--green);">案例 6</div>
+        <h4>门店异常处理助手联通飞书</h4>
+        <p>展示异常门店卡片列表 → 点击查看异常详情和建议动作 → 一键推送门店名称、异常原因和处理建议到飞书群。</p>
+        <div class="case-value"><span>价值：</span>异常发现和业务协作连接，从"看到问题"到"组织处理"形成闭环</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -608,6 +752,58 @@ body {
   <div class="highlight-box" style="margin-top:24px;">
     <h4>📚 更多资源</h4>
     <p>官方文档：<a href="https://docs.guandata.com/product/bi/guancli" style="color:var(--primary);" target="_blank">GuanCLI 使用指南</a> · <a href="https://docs.guandata.com/product/bi/guancli-overview" style="color:var(--primary);" target="_blank">工具套件概述</a> · npm 包：<a href="https://www.npmjs.com/package/@guandata/guancli" style="color:var(--primary);" target="_blank">@guandata/guancli</a></p>
+  </div>
+</div>
+
+<!-- ====== 参考案例总览：分工与选择 ====== -->
+<div id="section-compare" class="bottom-section">
+  <div class="section-title"><span>🧭</span> GuanCLI vs 超级应用：先看清分工</div>
+  <div class="section-subtitle">两类能力解决不同问题，了解差异再选方向</div>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th style="width:18%">方向</th>
+        <th style="width:42%">解决什么</th>
+        <th>适合展示的价值</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>GuanCLI</strong><br><span style="font-size:11px;color:var(--gray-500);">+ GuanETL / GuanVis</span></td>
+        <td>让 Agent 读取、理解和操作 BI 中的数据集、页面、卡片、ETL 等资产。</td>
+        <td>自动分析、口径解释、ETL 排查、看板生成、日报写入飞书。</td>
+      </tr>
+      <tr>
+        <td><strong>超级应用</strong></td>
+        <td>把 BI 数据和指标做成业务人员可操作的场景化应用。</td>
+        <td>筛选、测算、填报、方案生成、大屏展示、消息推送。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box" style="background:linear-gradient(135deg,#f0f9ff 0%,#eff6ff 100%);border-color:#bae6fd;margin-top:20px;">
+    <h4>🔑 一句话理解</h4>
+    <p>GuanCLI 偏"<strong>让 Agent 会用 BI</strong>"——自动查数据、解释口径、排查链路；<br>
+    超级应用偏"<strong>让业务在数据里完成动作</strong>"——测算、填报、组货、推送，在场景中直接操作数据。</p>
+  </div>
+
+  <div class="section-title" style="margin-top:28px;"><span>🎯</span> 如何选择使用方向</div>
+  <table class="compare-table">
+    <thead>
+      <tr><th style="width:30%">客户目标</th><th style="width:22%">优先方向</th><th>推荐表达</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>强调 Agent 能使用 BI</td><td><strong>GuanCLI</strong></td><td>自动分析、口径解释、ETL 排查、日报生成</td></tr>
+      <tr><td>强调业务应用体验</td><td><strong>超级应用</strong></td><td>测算、填报、组货、异常处理、大屏展示</td></tr>
+      <tr><td>强调完整闭环</td><td><strong>GuanCLI + 超级应用</strong></td><td>先分析 → 沉淀数据集/看板 → 承接业务动作</td></tr>
+    </tbody>
+  </table>
+
+  <div class="highlight-box" style="margin-top:20px;background:linear-gradient(135deg,#f0fdf4 0%,#ecfdf5 100%);border-color:#a7f3d0;">
+    <h4>💡 完整闭环故事线</h4>
+    <p>GuanCLI 读取 BI 数据 → Agent 生成分析结论 → GuanETL / GuanVis 沉淀数据集或看板 → 超级应用承接筛选、测算、填报、方案生成和消息推送。<br>
+    <strong>从"看到问题"到"组织处理"，一个完整的分析-决策-执行闭环。</strong></p>
   </div>
 </div>
 
