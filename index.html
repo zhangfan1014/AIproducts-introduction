@@ -94,6 +94,17 @@ body {
   background: transparent;
 }
 .tab-btn .tab-icon { margin-right: 6px; font-size: 16px; vertical-align: -1px; }
+.tab-more {
+  font-size: 11px;
+  color: var(--gray-400);
+  padding: 4px 10px;
+  border: 1px dashed var(--gray-300);
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 4px;
+  align-self: center;
+}
 
 /* Content */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
@@ -345,6 +356,7 @@ body {
     <button class="tab-btn active" onclick="switchTab('guancli')"><span class="tab-icon">⌨️</span> guancli</button>
     <button class="tab-btn" onclick="switchTab('superapp')"><span class="tab-icon">🧩</span> SuperApp</button>
     <button class="tab-btn" onclick="switchTab('decidex')"><span class="tab-icon">🧠</span> DecideX</button>
+    <span class="tab-more">持续更新中</span>
   </div>
 </nav>
 
