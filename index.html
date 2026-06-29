@@ -575,20 +575,34 @@ body {
 <!-- ====== 快速上手 ====== -->
 <div id="section-quickstart" class="bottom-section">
   <div class="section-title"><span>🚀</span> 三步上手 guancli</div>
-  <div class="section-subtitle">安装到第一条查询，30 秒</div>
+  <p style="font-size:14px;font-weight:600;color:var(--gray-700);margin:6px 0 0 0;">安装到第一条查询，30 秒</p>
 
-  <div class="code-block" style="font-size:13px;">
-<span class="comment"># 第一步：安装</span>
-npm install -g <span class="arg">@guandata/guancli</span>
-
-<span class="comment"># 第二步：登录</span>
-<span class="cmd">guancli</span> auth login
-<span class="comment"># 输入 BI 地址、用户名、密码即可</span>
-
-<span class="comment"># 第三步：开用</span>
-<span class="cmd">guancli</span> ds tree                     <span class="comment"># 看所有数据集</span>
-<span class="cmd">guancli</span> ds preview <span class="arg">&lt;id&gt;</span> --limit 10 <span class="comment"># 预览数据</span>
-<span class="cmd">guancli</span> metric search <span class="arg">营收</span>          <span class="comment"># 搜指标</span>
+  <div style="display:flex;flex-direction:column;gap:10px;margin:8px 0 0 0;">
+    <div class="code-block" style="margin:0;font-size:13px;">
+      <span class="comment"># 第一步：安装</span>
+      <br>
+      npm install -g <span class="arg">@guandata/guancli</span>
+      <br>
+      <span class="comment"># 全局安装，一行命令搞定</span>
+    </div>
+    <div class="code-block" style="margin:0;font-size:13px;">
+      <span class="comment"># 第二步：登录</span>
+      <br>
+      <span class="cmd">guancli</span> auth login
+      <br>
+      <span class="comment"># 输入 BI 地址、用户名、密码，一次配置后续无需重复</span>
+    </div>
+    <div class="code-block" style="margin:0;font-size:13px;">
+      <span class="comment"># 第三步：开用</span>
+      <br>
+      <span class="cmd">guancli</span> ds tree
+      <br>
+      <span class="cmd">guancli</span> ds preview <span class="arg">&lt;id&gt;</span> --limit 10
+      <br>
+      <span class="cmd">guancli</span> metric search <span class="arg">营收</span>
+      <br>
+      <span class="comment"># 看数据集、预览数据、搜指标，开箱即用</span>
+    </div>
   </div>
 
   <div class="highlight-box" style="margin-top:24px;">
