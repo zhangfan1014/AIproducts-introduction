@@ -249,6 +249,66 @@ body {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px; margin: 16px 0;
 }
+
+/* Custom Dev Module */
+.sub-nav {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 28px;
+  background: var(--card-bg); border-radius: var(--radius);
+  padding: 8px; box-shadow: var(--shadow); border: 1px solid var(--gray-200);
+  position: sticky; top: 60px; z-index: 99;
+}
+.sub-nav a {
+  flex: 1; min-width: 80px; text-align: center;
+  padding: 8px 12px; font-size: 12.5px; font-weight: 500;
+  color: var(--gray-700); border-radius: 8px;
+  text-decoration: none; transition: all 0.2s;
+  white-space: nowrap;
+}
+.sub-nav a:hover { background: var(--primary-light); color: var(--primary); }
+.sub-nav a.active { background: var(--primary); color: #fff; }
+
+.scenario-section { 
+  scroll-margin-top: 130px; margin-bottom: 20px;
+  background: var(--card-bg); border-radius: var(--radius);
+  padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--gray-200);
+  border-left: 4px solid var(--primary);
+  transition: box-shadow 0.3s;
+}
+.scenario-section:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+.scenario-section .ss-header {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
+}
+.scenario-section .ss-icon {
+  width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.scenario-section .ss-title { font-size: 16px; font-weight: 700; }
+.scenario-section .ss-subtitle { font-size: 13px; color: var(--gray-500); margin-top: 1px; }
+.scenario-section .ss-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+.scenario-section .ss-desc { font-size: 13.5px; color: var(--gray-700); line-height: 1.7; margin-top: 10px; }
+.scenario-section .ss-case {
+  margin-top: 12px; font-size: 12px; color: var(--gray-500);
+  background: var(--gray-100); padding: 8px 12px; border-radius: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.q-card {
+  background: var(--card-bg); border-radius: var(--radius);
+  padding: 0; box-shadow: var(--shadow); border: 1px solid var(--gray-200);
+  overflow: hidden; margin: 16px 0;
+}
+.q-card .qc-header {
+  padding: 14px 20px; font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.q-card .qc-body { padding: 14px 20px 18px; }
+.q-card .qc-body ol { font-size: 13.5px; color: var(--gray-700); line-height: 2.2; padding-left: 22px; }
+
+/* Scroll reveal animation */
+.scroll-reveal { opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
+.scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
 .scenario-card {
   background: var(--card-bg); border-radius: var(--radius);
   padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--gray-200);
@@ -355,6 +415,7 @@ body {
     <button class="tab-btn active" onclick="switchTab('guancli')"><span class="tab-icon">⌨️</span> guancli</button>
     <button class="tab-btn" onclick="switchTab('superapp')"><span class="tab-icon">🧩</span> SuperApp</button>
     <button class="tab-btn" onclick="switchTab('decidex')"><span class="tab-icon">🧠</span> DecideX</button>
+    <button class="tab-btn" onclick="switchTab('custom')"><span class="tab-icon">🛠️</span> 定制开发</button>
     <span class="tab-more">持续更新中</span>
   </div>
 </nav>
@@ -1080,6 +1141,11 @@ body {
   </div>
 </div>
 
+<!-- ====== 定制开发服务能力（幻灯片嵌入） ====== -->
+<div id="tab-custom" class="tab-content" style="padding:0;max-width:none;animation:none;">
+  <iframe src="custom-dev-intro.html" style="width:100%;height:100dvh;border:none;display:block;" title="定制开发服务能力介绍" loading="lazy"></iframe>
+</div>
+
 <!-- ====== 参考案例总览：分工与选择 ====== -->
 <div id="section-compare" class="bottom-section">
   <div class="section-title"><span>🧭</span> 三件套怎么用：先看清分工</div>
@@ -1146,6 +1212,54 @@ body {
 </div>
 
 <script>
+// Sub-navigation: smooth scroll + active state
+function scrollToSection(event, sectionId) {
+  event.preventDefault();
+  var el = document.getElementById(sectionId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Update active link
+    document.querySelectorAll('.sub-nav a').forEach(function(a) { a.classList.remove('active'); });
+    if (event.target) event.target.classList.add('active');
+  }
+}
+
+// Scroll reveal animation
+function initScrollReveal() {
+  var elements = document.querySelectorAll('.scroll-reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  elements.forEach(function(el) { observer.observe(el); });
+}
+
+// Update subnav active state on scroll
+function initSubnavScroll() {
+  var subnav = document.getElementById('custom-subnav');
+  if (!subnav) return;
+  var sections = ['custom-overview', 'custom-scenarios', 'custom-questions', 'custom-rules', 'custom-talk'];
+
+  window.addEventListener('scroll', function() {
+    if (subnav.style.display === 'none') return;
+    var current = '';
+    sections.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top <= 180) current = id;
+      }
+    });
+    document.querySelectorAll('.sub-nav a').forEach(function(a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+}
+
 function toggleVideo(el) {
   el.classList.toggle('open');
   var player = el.nextElementSibling;
@@ -1159,7 +1273,7 @@ function switchTab(tabId) {
   });
   // Find the clicked button and activate it
   var buttons = document.querySelectorAll('.tab-btn');
-  var allTabs = ['guancli','superapp','decidex'];
+  var allTabs = ['guancli','superapp','decidex','custom'];
   var idx = allTabs.indexOf(tabId);
   if (idx >= 0 && idx < buttons.length) {
     buttons[idx].classList.add('active');
@@ -1175,7 +1289,19 @@ function switchTab(tabId) {
   }
   // Scroll to tab content top
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Re-init scroll reveal when tab switches (custom tab may need it)
+  setTimeout(function() {
+    if (document.querySelector('.scroll-reveal')) {
+      initScrollReveal();
+      initSubnavScroll();
+    }
+  }, 100);
 }
+// Init on page load
+document.addEventListener('DOMContentLoaded', function() {
+  initScrollReveal();
+  initSubnavScroll();
+});
 </script>
 
 </body>

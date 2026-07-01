@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>是定制开发，更是个性服务。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root { color-scheme: light; font-family: "Noto Sans SC", sans-serif; font-synthesis: none; text-rendering: optimizelegibility; -webkit-font-smoothing: antialiased; --ink: #111827; --paper: #fffaf0; --muted: #52606d; --line: rgba(17, 24, 39, .14); --teal: #00a896; --blue: #2563eb; --orange: #f97316; --red: #ef4444; --green: #16a34a; --yellow: #facc15; --violet: #7c3aed; --cream: #fffaf0; --white: #ffffff; --shadow: 0 clamp(.5rem, 1.4vw, 1.2rem) clamp(1rem, 3vw, 2.5rem) rgba(17, 24, 39, .16); --title-size: clamp(2.1rem, 6vw, 5.7rem); --h2-size: clamp(1.6rem, 4.2vw, 4.25rem); --h3-size: clamp(1rem, 2.1vw, 1.5rem); --body-size: clamp(.82rem, 1.35vw, 1.2rem); --small-size: clamp(.65rem, .95vw, .86rem); --slide-padding: clamp(1rem, 4vw, 4rem); --content-gap: clamp(.7rem, 2vw, 2rem); --element-gap: clamp(.45rem, 1vw, 1rem); --ease-out-expo: cubic-bezier(.16, 1, .3, 1); }
+* { box-sizing: border-box; }
+html, body, #root { min-height: 100%; margin: 0; }
+body { min-width: 320px; color: var(--ink); background: var(--paper); }
+button, input, textarea, select { font: inherit; }
+button { border: 0; cursor: pointer; background: none; padding: 0; }
+img { display: block; max-width: 100%; }
+html, body { height: 100%; overflow-x: hidden; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+.slide { width: 100vw; height: 100dvh; overflow: hidden; scroll-snap-align: start; display: flex; flex-direction: column; position: relative; }
+.slide-content { flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 100%; overflow: hidden; padding: var(--slide-padding); z-index: 1; }
+
+.slide::before { position: absolute; inset: 0; z-index: 0; content: ""; background: linear-gradient(135deg, transparent 0, transparent 72%, rgba(17, 24, 39, 0.05) 72%, rgba(17, 24, 39, 0.05) 74%, transparent 74%), linear-gradient(45deg, transparent 0, transparent 14%, rgba(0, 168, 150, 0.1) 14%, rgba(0, 168, 150, 0.1) 15%, transparent 15%); pointer-events: none; }
+
+h1, h2, h3, p, figure, figcaption, blockquote, ol, ul { margin: 0; }
+h1, h2 { font-family: "Noto Serif SC", serif; font-weight: 900; line-height: 1.02; }
+h2 { max-width: min(1020px, 92vw); font-size: var(--h2-size); }
+h3 { font-size: var(--h3-size); line-height: 1.25; }
+
+.eyebrow { display: inline-flex; width: fit-content; align-items: center; gap: clamp(0.35rem, 0.8vw, 0.7rem); padding: clamp(0.25rem, 0.7vw, 0.45rem) clamp(0.45rem, 1vw, 0.8rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--yellow); box-shadow: clamp(.16rem,.45vw,.42rem) clamp(.16rem,.45vw,.42rem) 0 var(--ink); font-size: var(--small-size); font-weight: 900; }
+.lead, .title-copy { max-width: min(860px, 86vw); color: var(--muted); font-size: clamp(0.9rem, 1.55vw, 1.4rem); line-height: 1.65; }
+
+.reveal { opacity: 0; transform: translateY(clamp(0.8rem, 2vw, 1.8rem)); transition: opacity .62s var(--ease-out-expo), transform .62s var(--ease-out-expo); }
+.slide.visible .reveal, .slide:target .reveal { opacity: 1; transform: translateY(0); }
+.slide .reveal:nth-child(2) { transition-delay: 0.08s; }
+.slide .reveal:nth-child(3) { transition-delay: 0.16s; }
+.slide .reveal:nth-child(4) { transition-delay: 0.24s; }
+.slide .reveal:nth-child(5) { transition-delay: 0.32s; }
+.slide .reveal:nth-child(6) { transition-delay: 0.40s; }
+
+.progress { position: fixed; top: 0; left: 0; z-index: 20; width: 100%; height: clamp(0.2rem, 0.5vw, 0.42rem); background: var(--ink); transform-origin: left center; transition: transform .3s var(--ease-out-expo); }
+.dot-nav { position: fixed; top: 50%; right: clamp(0.5rem, 1.4vw, 1.25rem); z-index: 20; display: grid; gap: clamp(0.32rem, 0.8vw, 0.6rem); transform: translateY(-50%); }
+.dot-nav button { width: clamp(0.48rem, 0.9vw, 0.74rem); height: clamp(0.48rem, 0.9vw, 0.74rem); border: 1px solid var(--ink); border-radius: 999px; background: var(--white); transition: background 0.2s, transform 0.2s; }
+.dot-nav button.active { background: var(--ink); transform: scale(1.35); }
+.slide-count { position: fixed; right: clamp(0.8rem, 2vw, 1.8rem); bottom: clamp(0.8rem, 2vw, 1.5rem); z-index: 20; padding: clamp(0.3rem, 0.7vw, 0.48rem) clamp(0.5rem, 1vw, 0.75rem); border: 1px solid var(--ink); background: var(--white); box-shadow: clamp(.12rem,.35vw,.3rem) clamp(.12rem,.35vw,.3rem) 0 var(--ink); font-size: var(--small-size); font-weight: 900; }
+
+/* Title slide */
+.title-slide { background: linear-gradient(120deg, rgba(250, 204, 21, 0.95) 0, rgba(250, 204, 21, 0.95) 34%, transparent 34%), linear-gradient(90deg, #fffaf0 0, #fffaf0 64%, #b7f7e8 64%, #b7f7e8); }
+.stage-lines { position: absolute; right: clamp(1rem, 5vw, 6rem); bottom: clamp(1rem, 6vh, 5rem); width: clamp(9rem, 26vw, 26rem); height: clamp(9rem, 26vw, 26rem); border: clamp(.28rem,.8vw,.7rem) solid var(--ink); background: repeating-linear-gradient(135deg, rgba(17, 24, 39, 0.08) 0, rgba(17, 24, 39, 0.08) clamp(0.4rem, 1vw, 0.8rem), transparent clamp(0.4rem, 1vw, 0.8rem), transparent clamp(0.75rem, 1.8vw, 1.4rem)), #fff; transform: rotate(5deg); }
+.title-content { align-items: flex-start; gap: var(--content-gap); }
+.deck-title { max-width: min(1120px, 88vw); font-size: var(--title-size); }
+.signal-strip { display: flex; flex-wrap: wrap; gap: clamp(0.35rem, 0.9vw, 0.65rem); }
+.signal-strip span { display: inline-flex; min-height: clamp(1.9rem, 4vw, 3rem); align-items: center; padding: 0 clamp(0.55rem, 1.2vw, 0.95rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--white); box-shadow: clamp(.12rem,.35vw,.3rem) clamp(.12rem,.35vw,.3rem) 0 var(--ink); font-size: var(--body-size); font-weight: 900; }
+
+/* Framing slide */
+.split-content, .story-layout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1.1fr); gap: clamp(1rem, 3vw, 3rem); align-items: center; }
+.copy-stack, .story-copy { display: grid; gap: var(--content-gap); }
+.mini-map { position: relative; display: grid; min-height: min(56vh, 520px); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.5rem, 1.4vw, 1.1rem); align-content: center; }
+.mini-map span, .mini-map strong { display: flex; min-height: clamp(3.4rem, 8vw, 6.5rem); align-items: center; justify-content: center; border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--white); box-shadow: clamp(.16rem,.45vw,.42rem) clamp(.16rem,.45vw,.42rem) 0 var(--ink); font-size: clamp(0.86rem, 1.55vw, 1.3rem); font-weight: 900; }
+.mini-map strong { grid-column: 1 / -1; background: var(--teal); color: var(--white); font-size: clamp(2.2rem, 5vw, 4.8rem); }
+
+/* Radar / capability grid slide */
+.capability-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.5rem, 1.1vw, 0.9rem); margin-top: var(--content-gap); }
+.capability-card { display: grid; min-height: clamp(7.2rem, 15vw, 12rem); gap: clamp(0.3rem, 0.8vw, 0.65rem); padding: clamp(0.7rem, 1.4vw, 1.1rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--white); box-shadow: clamp(.14rem,.35vw,.34rem) clamp(.14rem,.35vw,.34rem) 0 var(--ink); }
+.capability-card p { color: var(--muted); font-size: var(--small-size); line-height: 1.55; }
+.card-number { width: fit-content; padding: clamp(0.18rem, 0.5vw, 0.32rem) clamp(0.3rem, 0.7vw, 0.5rem); border: 1px solid var(--ink); font-size: var(--small-size); font-weight: 900; }
+.capability-card.teal .card-number { background: var(--teal); color: var(--white); }
+.capability-card.blue .card-number { background: var(--blue); color: var(--white); }
+.capability-card.orange .card-number { background: var(--orange); color: var(--white); }
+.capability-card.red .card-number { background: var(--red); color: var(--white); }
+.capability-card.green .card-number { background: var(--green); color: var(--white); }
+.capability-card.yellow .card-number { background: var(--yellow); }
+.capability-card.violet .card-number { background: var(--violet); color: var(--white); }
+
+/* Individual capability deep-dive slides */
+.capability-slide.teal { background: linear-gradient(90deg, #e7fffa 0, #e7fffa 62%, #00a896 62%, #00a896); }
+.capability-slide.blue { background: linear-gradient(90deg, #edf5ff 0, #edf5ff 62%, #2563eb 62%, #2563eb); }
+.capability-slide.orange { background: linear-gradient(90deg, #fff4e8 0, #fff4e8 62%, #f97316 62%, #f97316); }
+.capability-slide.red { background: linear-gradient(90deg, #fff1f2 0, #fff1f2 62%, #ef4444 62%, #ef4444); }
+.capability-slide.green { background: linear-gradient(90deg, #effdf4 0, #effdf4 62%, #16a34a 62%, #16a34a); }
+.capability-slide.yellow { background: linear-gradient(90deg, #fffbe5 0, #fffbe5 62%, #facc15 62%, #facc15); }
+.capability-slide.violet { background: linear-gradient(90deg, #f5f3ff 0, #f5f3ff 62%, #7c3aed 62%, #7c3aed); }
+
+.keyword-cloud { display: flex; flex-wrap: wrap; gap: clamp(0.32rem, 0.8vw, 0.6rem); }
+.keyword-cloud span { padding: clamp(0.24rem, 0.6vw, 0.42rem) clamp(0.42rem, 0.9vw, 0.7rem); border: 1px solid var(--ink); background: var(--white); font-size: var(--small-size); font-weight: 800; }
+.case-label { width: fit-content; max-width: 100%; padding: clamp(0.45rem, 1vw, 0.72rem) clamp(0.6rem, 1.4vw, 1rem); border-left: clamp(.3rem,.8vw,.6rem) solid var(--ink); background: rgba(255,255,255,0.74); color: var(--ink); font-size: var(--small-size); font-weight: 900; }
+.customer-feedback { display: grid; gap: clamp(0.3rem, 0.7vw, 0.55rem); max-width: min(620px, 100%); padding: clamp(0.7rem, 1.5vw, 1.1rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: rgba(255,255,255,0.86); box-shadow: clamp(.14rem,.35vw,.34rem) clamp(.14rem,.35vw,.34rem) 0 var(--ink); }
+.customer-feedback figcaption { width: fit-content; padding: clamp(0.16rem, 0.4vw, 0.28rem) clamp(0.34rem, 0.75vw, 0.55rem); background: var(--ink); color: var(--white); font-size: var(--small-size); font-weight: 900; }
+.customer-feedback blockquote, .customer-feedback p { color: #334155; font-size: clamp(0.72rem, 1.08vw, 0.96rem); line-height: 1.5; }
+.customer-feedback p { color: var(--ink); font-weight: 900; }
+
+.visual-panel { display: flex; min-height: min(58vh, 540px); align-items: center; justify-content: center; padding: clamp(0.65rem, 1.4vw, 1.1rem); border: clamp(2px,.22vw,4px) solid var(--ink); background: repeating-linear-gradient(0deg, rgba(255,255,255,0.62) 0, rgba(255,255,255,0.62) clamp(.5rem,1vw,.8rem), rgba(17,24,39,0.04) clamp(.5rem,1vw,.8rem), rgba(17,24,39,0.04) clamp(.9rem,1.8vw,1.4rem)), var(--white); box-shadow: var(--shadow); }
+.visual-panel img { width: 100%; max-height: min(52vh, 500px); border: 1px solid var(--line); background: var(--white); object-fit: contain; }
+.security-visual { display: grid; width: min(100%, 520px); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.5rem, 1.2vw, 0.9rem); }
+.security-visual span, .security-visual strong { display: flex; min-height: clamp(3.2rem, 8vw, 6rem); align-items: center; justify-content: center; border: 1px solid var(--ink); background: var(--white); font-size: clamp(0.9rem, 1.6vw, 1.35rem); font-weight: 900; }
+.security-visual strong { grid-column: 1 / -1; background: var(--red); color: var(--white); }
+
+/* Showcase slides */
+.showcase-slide.green { background: linear-gradient(90deg, #eafff2 0, #eafff2 42%, #d6ffe2 42%, #d6ffe2); }
+.showcase-slide.yellow { background: linear-gradient(90deg, #fff7d6 0, #fff7d6 42%, #fff 42%, #fff); }
+.showcase-content { display: grid; grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr); gap: clamp(1rem, 2.6vw, 2.5rem); align-items: center; }
+.showcase-grid { display: grid; grid-template-columns: minmax(120px, 0.55fr) minmax(0, 1fr); gap: clamp(0.65rem, 1.5vw, 1.2rem); align-items: center; }
+.showcase-grid img { width: 100%; max-height: min(58vh, 530px); border: clamp(2px,.22vw,4px) solid var(--ink); background: var(--white); box-shadow: var(--shadow); object-fit: contain; }
+.showcase-grid .tall-shot, .showcase-grid .phone-shot { max-height: min(64vh, 610px); }
+
+/* Future intro */
+.future-intro-slide { background: linear-gradient(116deg, rgba(250, 204, 21, 0.92) 0, rgba(250, 204, 21, 0.92) 24%, transparent 24%), linear-gradient(90deg, #fffaf0 0, #fffaf0 62%, #e9d5ff 62%, #e9d5ff); }
+.future-intro-slide h2 { max-width: min(1180px, 92vw); line-height: 1.1; }
+.future-intro-slide .lead { color: #334155; }
+.future-intro-content { align-items: flex-start; gap: var(--content-gap); }
+.future-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(0.75rem, 1.8vw, 1.4rem); margin-top: var(--content-gap); }
+.future-pair article { display: grid; gap: clamp(0.45rem, 1vw, 0.8rem); min-height: clamp(11rem, 24vh, 15rem); padding: clamp(0.9rem, 2vw, 1.6rem); border: clamp(2px,.22vw,4px) solid var(--ink); background: var(--white); box-shadow: var(--shadow); }
+.future-pair article.teal { background: linear-gradient(135deg, #fff 0, #fff 76%, #99f6e4 76%, #99f6e4); }
+.future-pair article.violet { background: linear-gradient(135deg, #fff 0, #fff 76%, #ddd6fe 76%, #ddd6fe); }
+.future-pair span { width: fit-content; padding: clamp(0.2rem, 0.5vw, 0.35rem) clamp(0.35rem, 0.8vw, 0.6rem); border: 1px solid var(--ink); background: var(--yellow); font-size: var(--small-size); font-weight: 900; }
+.future-pair h3 { font-family: "Noto Serif SC", serif; font-size: clamp(1.7rem, 4vw, 3.8rem); line-height: 1; }
+.future-pair p { color: var(--muted); font-size: var(--body-size); line-height: 1.55; }
+
+/* GuanCLI slide */
+.guancli-slide { background: linear-gradient(90deg, #e7fffa 0, #e7fffa 58%, #111827 58%, #111827); }
+.superapp-slide { background: linear-gradient(90deg, #f5f3ff 0, #f5f3ff 58%, #facc15 58%, #facc15); }
+.future-layout { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(300px, 1.08fr); gap: clamp(1rem, 3vw, 3rem); align-items: center; }
+.agent-console { display: grid; gap: clamp(0.45rem, 1vw, 0.8rem); padding: clamp(0.85rem, 1.8vw, 1.4rem); border: clamp(2px,.22vw,4px) solid var(--ink); background: #101826; box-shadow: var(--shadow); }
+.console-row { min-height: clamp(2.3rem, 5.2vw, 4rem); padding: clamp(0.45rem, 0.9vw, 0.7rem) clamp(0.55rem, 1.2vw, 0.9rem); border: 1px solid rgba(255,255,255,0.18); color: #d1fae5; font-size: clamp(0.78rem, 1.3vw, 1.05rem); line-height: 1.45; }
+.console-row::before { color: #facc15; content: "$ "; font-weight: 900; }
+.console-row.prompt { background: rgba(0, 168, 150, 0.22); color: #fff; }
+.console-row.result { background: #facc15; color: var(--ink); font-weight: 900; }
+
+.app-stack { display: grid; gap: clamp(0.55rem, 1.2vw, 0.9rem); padding: clamp(0.75rem, 1.6vw, 1.2rem); border: clamp(2px,.22vw,4px) solid var(--ink); background: var(--white); box-shadow: var(--shadow); }
+.app-stack span, .app-stack strong { display: flex; min-height: clamp(3rem, 7vw, 5.4rem); align-items: center; padding: 0 clamp(0.7rem, 1.5vw, 1.1rem); border: 1px solid var(--ink); font-size: clamp(0.9rem, 1.5vw, 1.25rem); font-weight: 900; }
+.app-stack span:nth-child(1) { background: #dbeafe; }
+.app-stack span:nth-child(2) { background: #dcfce7; }
+.app-stack span:nth-child(3) { background: #ffedd5; }
+.app-stack strong { background: #111827; color: var(--white); }
+
+/* Future service slide */
+.future-service-slide { background: linear-gradient(100deg, rgba(0, 168, 150, 0.2) 0, rgba(0, 168, 150, 0.2) 24%, transparent 24%), linear-gradient(90deg, #fff 0, #fff 54%, #fff7d6 54%, #fff7d6); }
+.service-loop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(0.5rem, 1.2vw, 0.95rem); margin-top: var(--content-gap); }
+.service-loop article { position: relative; display: grid; align-content: start; gap: clamp(0.55rem, 1.2vw, 0.9rem); min-height: clamp(11rem, 28vh, 17rem); padding: clamp(0.75rem, 1.5vw, 1.15rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--white); box-shadow: clamp(.14rem,.35vw,.34rem) clamp(.14rem,.35vw,.34rem) 0 var(--ink); }
+.service-loop article::after { position: absolute; top: 50%; right: calc(-1 * clamp(0.55rem, 1.3vw, 1rem)); width: clamp(0.7rem, 1.4vw, 1rem); height: clamp(0.7rem, 1.4vw, 1rem); border-top: clamp(2px,.22vw,4px) solid var(--ink); border-right: clamp(2px,.22vw,4px) solid var(--ink); content: ""; transform: translateY(-50%) rotate(45deg); }
+.service-loop article:last-child::after { display: none; }
+.service-loop h3 { font-family: "Noto Serif SC", serif; font-size: clamp(1.05rem, 2vw, 1.65rem); }
+.future-note { max-width: min(980px, 90vw); margin-top: var(--content-gap); color: var(--muted); font-size: clamp(0.9rem, 1.45vw, 1.25rem); line-height: 1.6; }
+
+/* Questions slide */
+.questions-slide { background: linear-gradient(120deg, #fff 0, #fff 52%, #e8f8ff 52%, #e8f8ff); }
+.question-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.65rem, 1.5vw, 1.2rem); margin-top: var(--content-gap); }
+.question-card { display: grid; gap: clamp(0.5rem, 1vw, 0.8rem); min-height: clamp(16rem, 40vh, 25rem); padding: clamp(0.8rem, 1.7vw, 1.3rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--white); box-shadow: clamp(.15rem,.4vw,.36rem) clamp(.15rem,.4vw,.36rem) 0 var(--ink); }
+.question-card h3 { width: fit-content; padding: clamp(0.2rem, 0.5vw, 0.35rem) clamp(0.35rem, 0.8vw, 0.6rem); background: var(--yellow); }
+.question-card ol { display: grid; gap: clamp(0.36rem, 0.8vw, 0.65rem); padding-left: clamp(1.2rem, 2vw, 1.6rem); color: var(--muted); font-size: clamp(0.74rem, 1.18vw, 1rem); line-height: 1.45; }
+
+/* Rules slide */
+.rules-slide { background: linear-gradient(#111827 0, #111827 58%, #fffaf0 58%, #fffaf0); }
+.rules-slide .eyebrow { background: var(--green); color: var(--white); }
+.rules-slide h2 { color: var(--white); text-shadow: rgba(0,0,0,0.28) 0 0.18rem 0.9rem; }
+.rule-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.65rem, 1.5vw, 1.2rem); margin-top: var(--content-gap); }
+.rule-columns article { display: grid; gap: clamp(0.6rem, 1.2vw, 1rem); min-height: clamp(15rem, 42vh, 26rem); padding: clamp(0.8rem, 1.7vw, 1.3rem); border: clamp(1px,.12vw,2px) solid var(--ink); background: var(--white); box-shadow: clamp(.15rem,.4vw,.36rem) clamp(.15rem,.4vw,.36rem) 0 var(--ink); }
+
+/* Closing slide */
+.closing-slide { background: linear-gradient(120deg, rgba(0, 168, 150, 0.9) 0, rgba(0, 168, 150, 0.9) 18%, transparent 18%), linear-gradient(90deg, #111827 0, #111827 58%, #facc15 58%, #facc15); color: var(--white); }
+.closing-slide .slide-content { align-items: flex-start; gap: var(--content-gap); }
+.closing-slide .eyebrow { background: var(--white); color: var(--ink); }
+.closing-content blockquote { max-width: min(1120px, 88vw); font-family: "Noto Serif SC", serif; font-size: clamp(1.55rem, 4.2vw, 4rem); font-weight: 900; line-height: 1.18; }
+.closing-ribbon { display: flex; flex-wrap: wrap; gap: clamp(0.45rem, 1vw, 0.8rem); }
+.closing-ribbon span { padding: clamp(0.35rem, 0.8vw, 0.56rem) clamp(0.55rem, 1.2vw, 0.9rem); border: 1px solid var(--white); background: rgba(255,255,255,0.14); font-size: var(--body-size); font-weight: 900; }
+
+/* Responsive */
+@media (max-width: 980px) {
+  .split-content, .story-layout, .showcase-content, .future-layout { grid-template-columns: 1fr; }
+  .visual-panel { min-height: min(36vh, 300px); }
+  .visual-panel img, .showcase-grid img { max-height: min(34vh, 300px); }
+  .capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .question-grid, .rule-columns, .service-loop { grid-template-columns: 1fr; }
+  .question-card, .rule-columns article, .service-loop article { min-height: auto; }
+  .service-loop article::after { display: none; }
+}
+@media (max-width: 700px) {
+  .dot-nav, .slide-count { display: none; }
+  .capability-grid { grid-template-columns: 1fr; }
+  .capability-card { min-height: auto; }
+  .showcase-grid { grid-template-columns: 1fr 1fr; }
+  .future-pair { grid-template-columns: 1fr; }
+  .future-pair article, .agent-console, .app-stack { min-height: auto; }
+  .title-slide { background: linear-gradient(130deg, rgba(250, 204, 21, 0.95) 0, rgba(250, 204, 21, 0.95) 28%, transparent 28%), linear-gradient(90deg, #fffaf0 0, #fffaf0 72%, #b7f7e8 72%, #b7f7e8); }
+  .stage-lines { opacity: 0.42; }
+}
+@media (max-height: 700px) {
+  :root { --slide-padding: clamp(.75rem, 3vw, 2rem); --content-gap: clamp(.4rem, 1.5vw, 1rem); --title-size: clamp(1.25rem, 4.5vw, 2.5rem); --h2-size: clamp(1rem, 3vw, 1.75rem); }
+  .capability-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .capability-card { min-height: clamp(5.7rem, 16vh, 7rem); }
+}
+@media (max-height: 600px) {
+  :root { --slide-padding: clamp(.5rem, 2.5vw, 1.5rem); --content-gap: clamp(.3rem, 1vw, .75rem); --title-size: clamp(1.1rem, 4vw, 2rem); --body-size: clamp(.7rem, 1.2vw, .95rem); }
+  .dot-nav, .slide-count { display: none; }
+  .lead, .title-copy { line-height: 1.45; }
+  .visual-panel { min-height: min(30vh, 230px); }
+  .agent-console, .app-stack { gap: clamp(0.25rem, 0.8vw, 0.5rem); }
+  .console-row, .app-stack span, .app-stack strong { min-height: clamp(1.8rem, 5vh, 2.5rem); }
+}
+@media (max-height: 500px) {
+  :root { --slide-padding: clamp(.4rem, 2vw, 1rem); --title-size: clamp(1rem, 3.5vw, 1.5rem); --h2-size: clamp(.9rem, 2.5vw, 1.25rem); --body-size: clamp(.65rem, 1vw, .85rem); }
+  .case-label, .lead { display: none; }
+  .visual-panel img, .showcase-grid img { max-height: min(28vh, 180px); }
+  .future-note, .service-loop article:nth-child(n+4) { display: none; }
+}
+@media (max-width: 600px) {
+  :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+  .keyword-cloud span { font-size: clamp(0.6rem, 2.5vw, 0.78rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.2s !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div id="root">
+<main class="deck-shell">
+
+  <!-- Progress bar -->
+  <div class="progress" id="progressBar" style="transform: scaleX(0.0526316);"></div>
+
+  <!-- Dot navigation -->
+  <nav class="dot-nav" id="dotNav" aria-label="Slides">
+    <button aria-label="Go to slide 1" class="active" data-index="0" onclick="goToSlide(0)"></button>
+    <button aria-label="Go to slide 2" data-index="1" onclick="goToSlide(1)"></button>
+    <button aria-label="Go to slide 3" data-index="2" onclick="goToSlide(2)"></button>
+    <button aria-label="Go to slide 4" data-index="3" onclick="goToSlide(3)"></button>
+    <button aria-label="Go to slide 5" data-index="4" onclick="goToSlide(4)"></button>
+    <button aria-label="Go to slide 6" data-index="5" onclick="goToSlide(5)"></button>
+    <button aria-label="Go to slide 7" data-index="6" onclick="goToSlide(6)"></button>
+    <button aria-label="Go to slide 8" data-index="7" onclick="goToSlide(7)"></button>
+    <button aria-label="Go to slide 9" data-index="8" onclick="goToSlide(8)"></button>
+    <button aria-label="Go to slide 10" data-index="9" onclick="goToSlide(9)"></button>
+    <button aria-label="Go to slide 11" data-index="10" onclick="goToSlide(10)"></button>
+    <button aria-label="Go to slide 12" data-index="11" onclick="goToSlide(11)"></button>
+    <button aria-label="Go to slide 13" data-index="12" onclick="goToSlide(12)"></button>
+    <button aria-label="Go to slide 14" data-index="13" onclick="goToSlide(13)"></button>
+    <button aria-label="Go to slide 15" data-index="14" onclick="goToSlide(14)"></button>
+    <button aria-label="Go to slide 16" data-index="15" onclick="goToSlide(15)"></button>
+    <button aria-label="Go to slide 17" data-index="16" onclick="goToSlide(16)"></button>
+    <button aria-label="Go to slide 18" data-index="17" onclick="goToSlide(17)"></button>
+    <button aria-label="Go to slide 19" data-index="18" onclick="goToSlide(18)"></button>
+  </nav>
+
+  <!-- Slide counter -->
+  <div class="slide-count" id="slideCount" aria-live="polite">01 / 19</div>
+
+  <!-- ====== Slide 1: Title ====== -->
+  <section class="slide title-slide visible" data-slide-index="0">
+    <div class="stage-lines" aria-hidden="true"></div>
+    <div class="slide-content title-content">
+      <p class="eyebrow reveal">定制化开发服务能力介绍</p>
+      <h1 class="deck-title reveal">是定制开发，<br>更是个性服务。</h1>
+      <p class="title-copy reveal">给非技术同事的一套识别地图：客户说的是"一个需求"，背后可能是登录、系统、消息、权限和管理场景的完整连接。</p>
+      <div class="signal-strip reveal" aria-label="能力关键词">
+        <span>登录</span><span>系统</span><span>门户</span><span>权限</span><span>消息</span><span>展示</span><span>接数</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 2: Framing ====== -->
+  <section class="slide framing-slide" data-slide-index="1">
+    <div class="slide-content split-content">
+      <div class="copy-stack">
+        <p class="eyebrow reveal">一句话先讲清楚</p>
+        <h2 class="reveal">定开不只是"改功能"。</h2>
+        <p class="lead reveal">它是在帮客户把 BI 接进已有的登录体系、业务系统、消息体系和管理场景里。</p>
+      </div>
+      <div class="mini-map reveal" aria-label="BI 融入客户环境示意">
+        <span>OA 门户</span><span>统一认证</span><span>业务系统</span><span>消息平台</span><span>权限审批</span><strong>BI</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 3: 7 Capabilities ====== -->
+  <section class="slide radar-slide" data-slide-index="2">
+    <div class="slide-content">
+      <p class="eyebrow reveal">先看场景，再谈方案</p>
+      <h2 class="reveal">7 类最容易识别的定制机会</h2>
+      <div class="capability-grid reveal">
+        <article class="capability-card teal"><span class="card-number">01</span><h3>登录与账号打通</h3><p>把 BI 接进客户已有登录体系，减少重复登录和账号维护成本。</p></article>
+        <article class="capability-card blue"><span class="card-number">02</span><h3>系统对接与数据打通</h3><p>把系统里的业务数据自动接进 BI，也能把分析结果回传业务系统。</p></article>
+        <article class="capability-card orange"><span class="card-number">03</span><h3>门户内嵌与移动端</h3><p>让 BI 出现在客户每天工作的入口里，而不是孤零零的新系统。</p></article>
+        <article class="capability-card red"><span class="card-number">04</span><h3>权限、安全、审批</h3><p>围绕权限、审批和合规要求做适配，帮助项目通过内部审查。</p></article>
+        <article class="capability-card green"><span class="card-number">05</span><h3>预警、订阅、消息推送</h3><p>把 BI 从"被动查看"升级成"主动触达"。</p></article>
+        <article class="capability-card yellow"><span class="card-number">06</span><h3>领导驾驶舱与专题展示</h3><p>当客户需要更好展示、更好汇报，定制页面和图表就是机会。</p></article>
+        <article class="capability-card violet"><span class="card-number">07</span><h3>数据接入与连接器适配</h3><p>难点在"数据怎么接进来"时，通常是数据接入适配型二开。</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 4: Scenario 01 - 登录 ====== -->
+  <section class="slide capability-slide teal" data-slide-index="3">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 01</p>
+        <h2 class="reveal">登录与账号打通</h2>
+        <p class="lead reveal">把 BI 接进客户已有登录体系，减少重复登录和账号维护成本。</p>
+        <div class="keyword-cloud reveal"><span>单点登录</span><span>统一认证</span><span>免登录</span><span>账号同步</span></div>
+        <p class="case-label reveal">人保 4A / 蜜雪扫码 / 广汽丰田同步</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>车企 IT 团队</figcaption>
+          <blockquote>不想让员工再记一套 BI 账号。</blockquote>
+          <p>接入统一认证后，从企业门户直接进，看数像打开内部应用一样自然。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div style="display:grid;gap:0.6rem;width:100%;padding:1rem;text-align:center;color:var(--muted);font-size:var(--small-size);">
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;">
+            <span style="padding:0.4rem 0.7rem;border:1px solid var(--ink);background:var(--white);font-weight:900;font-size:clamp(0.7rem,1vw,0.9rem);">企业门户</span>
+            <span style="padding:0.4rem 0.7rem;border:1px solid var(--ink);background:var(--white);font-weight:900;font-size:clamp(0.7rem,1vw,0.9rem);">统一认证</span>
+          </div>
+          <div style="font-size:1.5rem;">⬇️</div>
+          <div style="padding:0.6rem 1rem;border:2px solid var(--teal);background:var(--teal);color:#fff;font-weight:900;font-size:clamp(1rem,1.8vw,1.5rem);">BI 平台 · 免登录访问</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 5: Scenario 02 - 系统对接 ====== -->
+  <section class="slide capability-slide blue" data-slide-index="4">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 02</p>
+        <h2 class="reveal">系统对接与数据打通</h2>
+        <p class="lead reveal">把系统里的业务数据自动接进 BI，也能把分析结果回传业务系统。</p>
+        <div class="keyword-cloud reveal"><span>ERP</span><span>OA</span><span>HR</span><span>SRM</span><span>财务</span><span>电商</span></div>
+        <p class="case-label reveal">数据连接器 / API Connector</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>零售业务团队</figcaption>
+          <blockquote>他们问得很直接：可以对接我们企业自身的 OA 系统吗？</blockquote>
+          <p>定开把 OA、ERP 和业务数据接进 BI，少了人工搬数，日报更新也更准时。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div style="display:grid;gap:0.5rem;width:100%;padding:0.5rem;text-align:center;">
+          <div style="display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;">
+            <span style="padding:0.4rem 0.8rem;border:1px solid var(--ink);background:#dbeafe;font-weight:900;font-size:clamp(0.65rem,0.9vw,0.8rem);">ERP</span>
+            <span style="padding:0.4rem 0.8rem;border:1px solid var(--ink);background:#dbeafe;font-weight:900;font-size:clamp(0.65rem,0.9vw,0.8rem);">OA</span>
+            <span style="padding:0.4rem 0.8rem;border:1px solid var(--ink);background:#dbeafe;font-weight:900;font-size:clamp(0.65rem,0.9vw,0.8rem);">HR</span>
+            <span style="padding:0.4rem 0.8rem;border:1px solid var(--ink);background:#dbeafe;font-weight:900;font-size:clamp(0.65rem,0.9vw,0.8rem);">SRM</span>
+          </div>
+          <div style="font-size:1.2rem;">⬇️ 自动同步 ⬆️ 结果回传</div>
+          <div style="padding:0.5rem 1rem;border:2px solid var(--blue);background:var(--blue);color:#fff;font-weight:900;font-size:clamp(0.9rem,1.5vw,1.2rem);">BI 分析平台</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 6: Scenario 03 - 门户内嵌 ====== -->
+  <section class="slide capability-slide orange" data-slide-index="5">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 03</p>
+        <h2 class="reveal">门户内嵌与移动端</h2>
+        <p class="lead reveal">让 BI 出现在客户每天工作的入口里，而不是孤零零的新系统。</p>
+        <div class="keyword-cloud reveal"><span>门户</span><span>工作台</span><span>iframe</span><span>SDK</span><span>移动端</span></div>
+        <p class="case-label reveal">农夫 SSO / 门户工作台</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>消费品区域团队</figcaption>
+          <blockquote>过去要先找报表链接。</blockquote>
+          <p>现在工作台里就能看到核心看板，培训成本低了很多。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div style="display:grid;gap:0.5rem;width:100%;padding:0.5rem;text-align:center;">
+          <div style="padding:0.7rem;border:2px solid var(--ink);background:var(--white);font-weight:900;font-size:clamp(0.85rem,1.3vw,1.1rem);">🏢 企业门户 / 工作台</div>
+          <div style="font-size:1.2rem;">⬇️ iframe 内嵌</div>
+          <div style="padding:0.7rem;border:2px dashed var(--orange);background:#fff4e8;font-weight:900;font-size:clamp(0.85rem,1.3vw,1.1rem);color:var(--orange);">📊 核心看板 · 就在手边</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 7: Scenario 04 - 权限安全 ====== -->
+  <section class="slide capability-slide red" data-slide-index="6">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 04</p>
+        <h2 class="reveal">权限、安全、审批</h2>
+        <p class="lead reveal">围绕权限、审批和合规要求做适配，帮助项目通过内部审查。</p>
+        <div class="keyword-cloud reveal"><span>权限中心</span><span>审批</span><span>加密</span><span>导出控制</span><span>安全审计</span></div>
+        <p class="case-label reveal">万辰 Excel 导出加密</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>连锁门店管理方</figcaption>
+          <blockquote>他们最担心的不是能不能导出，而是导出后谁还能继续传播。</blockquote>
+          <p>加密和审批补上后，权限边界清楚，内部审查也更好解释。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div class="security-visual" aria-label="权限、安全、审批示意">
+          <span>访问</span><span>审批</span><span>加密</span><span>审计</span><strong>合规通过</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 8: Scenario 05 - 预警订阅 ====== -->
+  <section class="slide capability-slide green" data-slide-index="7">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 05</p>
+        <h2 class="reveal">预警、订阅、消息推送</h2>
+        <p class="lead reveal">把 BI 从"被动查看"升级成"主动触达"。</p>
+        <div class="keyword-cloud reveal"><span>预警</span><span>订阅</span><span>推送</span><span>邮件</span><span>企微</span><span>飞书</span></div>
+        <p class="case-label reveal">人保消息系统 / 联合利华订阅追踪</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>保险运营团队</figcaption>
+          <blockquote>异常指标不能只停留在看板里。</blockquote>
+          <p>很快就对接了内部通知渠道；按常规排期，这类改造通常要等一个月左右。</p>
+          <p>现在谁收到了、有没有处理，都能继续追。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div style="display:grid;gap:0.4rem;width:100%;padding:0.5rem;text-align:center;">
+          <div style="padding:0.5rem;border:2px solid var(--ink);background:var(--white);font-weight:900;font-size:clamp(0.8rem,1.2vw,1rem);">📊 异常指标检测</div>
+          <div style="font-size:1.2rem;">⬇️</div>
+          <div style="display:flex;gap:0.4rem;justify-content:center;flex-wrap:wrap;">
+            <span style="padding:0.4rem 0.6rem;border:1px solid var(--ink);background:#d1fae5;font-weight:900;font-size:clamp(0.6rem,0.85vw,0.75rem);">📧 邮件</span>
+            <span style="padding:0.4rem 0.6rem;border:1px solid var(--ink);background:#d1fae5;font-weight:900;font-size:clamp(0.6rem,0.85vw,0.75rem);">💬 企微</span>
+            <span style="padding:0.4rem 0.6rem;border:1px solid var(--ink);background:#d1fae5;font-weight:900;font-size:clamp(0.6rem,0.85vw,0.75rem);">✈️ 飞书</span>
+          </div>
+          <div style="padding:0.4rem;border:2px solid var(--green);background:var(--green);color:#fff;font-weight:900;font-size:clamp(0.7rem,1vw,0.9rem);">已处理 → 可追踪</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 9: Scenario 06 - 驾驶舱 ====== -->
+  <section class="slide capability-slide yellow" data-slide-index="8">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 06</p>
+        <h2 class="reveal">领导驾驶舱与专题展示</h2>
+        <p class="lead reveal">当客户需要更好展示、更好汇报，定制页面和图表就是机会。</p>
+        <div class="keyword-cloud reveal"><span>驾驶舱</span><span>大屏</span><span>领导汇报</span><span>特殊图表</span></div>
+        <p class="case-label reveal">霸王茶姬筛选器 / 品牌化门户</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>茶饮品牌客户</figcaption>
+          <blockquote>给管理层看的页面，不能只是"能查数据"。</blockquote>
+          <p>定制后品牌感、筛选方式和汇报节奏都贴近业务，拿出去更像自己的系统。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div style="display:grid;gap:0.5rem;width:100%;padding:0.5rem;text-align:center;">
+          <div style="padding:0.6rem;border:2px solid var(--ink);background:var(--white);font-weight:900;font-size:clamp(0.85rem,1.3vw,1.1rem);">📈 经营驾驶舱</div>
+          <div style="font-size:0.9rem;color:var(--muted);">[ 品牌化 · 筛选器 · 汇报节奏 ]</div>
+          <div style="padding:0.5rem;border:2px solid var(--yellow);background:#fffbe5;font-weight:900;font-size:clamp(0.75rem,1.1vw,0.95rem);color:#92400e;">更像"自己的系统"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 10: Scenario 07 - 数据接入 ====== -->
+  <section class="slide capability-slide violet" data-slide-index="9">
+    <div class="slide-content story-layout">
+      <div class="story-copy">
+        <p class="eyebrow reveal">场景 07</p>
+        <h2 class="reveal">数据接入与连接器适配</h2>
+        <p class="lead reveal">难点在"数据怎么接进来"时，通常是数据接入适配型二开。</p>
+        <div class="keyword-cloud reveal"><span>新数据源</span><span>抽数</span><span>同步链路</span><span>老系统</span><span>接口格式</span></div>
+        <p class="case-label reveal">复杂鉴权数据连接器</p>
+        <figure class="customer-feedback reveal">
+          <figcaption>制造企业数据团队</figcaption>
+          <blockquote>老系统接口不标准，鉴权还绕，普通连接方式走不通。</blockquote>
+          <p>适配后先把链路跑稳，再逐步扩展字段和同步范围，心里有底。</p>
+        </figure>
+      </div>
+      <div class="visual-panel reveal">
+        <div style="display:grid;gap:0.4rem;width:100%;padding:0.5rem;text-align:center;">
+          <div style="padding:0.4rem;border:1px solid var(--ink);background:#f1f5f9;font-weight:900;font-size:clamp(0.7rem,1vw,0.85rem);">🏭 老系统 · 非标准接口</div>
+          <div style="font-size:1rem;">⬇️ 适配器</div>
+          <div style="padding:0.5rem;border:2px solid var(--violet);background:var(--violet);color:#fff;font-weight:900;font-size:clamp(0.8rem,1.2vw,1rem);">BI 数据链路 · 稳定运行</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 11: Showcase - 订阅管理 ====== -->
+  <section class="slide showcase-slide green" data-slide-index="10">
+    <div class="slide-content showcase-content">
+      <div class="copy-stack">
+        <p class="eyebrow reveal">案例展开</p>
+        <h2 class="reveal">让订阅不止发出去，还能被管理。</h2>
+        <p class="lead reveal">状态、追踪、审批和触达渠道，都可以变成客户自己的运营闭环。</p>
+      </div>
+      <div class="showcase-grid reveal">
+        <div class="tall-shot" style="border:clamp(2px,.22vw,4px) solid var(--ink);background:var(--white);box-shadow:var(--shadow);padding:1rem;text-align:center;font-weight:900;color:var(--muted);font-size:var(--small-size);display:flex;align-items:center;justify-content:center;">📋 订阅状态追踪</div>
+        <img alt="消息推送状态示意" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='400' height='300' fill='%23f8f9fc'/%3E%3Ctext x='40' y='150' font-family='sans-serif' font-size='16' fill='%23999'%3E消息推送状态示意图%3C/text%3E%3C/svg%3E">
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 12: Showcase - 展示型 ====== -->
+  <section class="slide showcase-slide yellow" data-slide-index="11">
+    <div class="slide-content showcase-content">
+      <div class="copy-stack">
+        <p class="eyebrow reveal">展示型机会</p>
+        <h2 class="reveal">客户要的不是"能看"，而是"拿得出手"。</h2>
+        <p class="lead reveal">大屏、门户、专题页和个性化筛选器，都是让 BI 更贴近业务语境的入口。</p>
+      </div>
+      <div class="showcase-grid reveal">
+        <div class="phone-shot" style="border:clamp(2px,.22vw,4px) solid var(--ink);background:var(--white);box-shadow:var(--shadow);padding:0.8rem;text-align:center;font-weight:900;color:var(--muted);font-size:var(--small-size);display:flex;align-items:center;justify-content:center;">📱 个性化筛选器</div>
+        <div style="border:clamp(2px,.22vw,4px) solid var(--ink);background:var(--white);box-shadow:var(--shadow);padding:0.8rem;text-align:center;font-weight:900;color:var(--muted);font-size:var(--small-size);display:flex;align-items:center;justify-content:center;">🖥️ 品牌化门户</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 13: Future Intro ====== -->
+  <section class="slide future-intro-slide" data-slide-index="12">
+    <div class="slide-content future-intro-content">
+      <p class="eyebrow reveal">Two more things</p>
+      <h2 class="reveal">传统 BI 之外，正在长出两个新物种。</h2>
+      <p class="lead reveal">它们不是"再多做几个功能"，而是让 AI 能接入企业真实数据、生成可运行应用，并持续沉淀为服务资产。</p>
+      <div class="future-pair reveal">
+        <article class="teal">
+          <span>Thing 01</span>
+          <h3>GuanCLI</h3>
+          <p>让企业 Agent 看见 BI，使用 BI。</p>
+        </article>
+        <article class="violet">
+          <span>Thing 02</span>
+          <h3>SuperApp</h3>
+          <p>让 AI 生成的想法变成可托管、可运行、可分享的应用。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 14: GuanCLI Deep ====== -->
+  <section class="slide guancli-slide" data-slide-index="13">
+    <div class="slide-content future-layout">
+      <div class="copy-stack">
+        <p class="eyebrow reveal">GuanCLI</p>
+        <h2 class="reveal">给 Agent 一把进入 BI 的钥匙。</h2>
+        <p class="lead reveal">Agent 越来越会推理，但企业数据场景第一步常常卡在：数据在哪、字段叫什么、口径怎么算、有没有权限。GuanCLI 让 Agent 在授权范围内读取 BI 资产，并把它们用于取数、排查和生成。</p>
+        <div class="keyword-cloud reveal">
+          <span>数据资产感知</span><span>安全读取</span><span>取数 + 加工</span><span>探索式分析</span><span>生成看板初版</span>
+        </div>
+      </div>
+      <div class="agent-console reveal" aria-label="GuanCLI 工作流示意">
+        <div class="console-row prompt">帮我查华东门店销售额和会员消费占比</div>
+        <div class="console-row">识别数据集目录</div>
+        <div class="console-row">读取字段与指标口径</div>
+        <div class="console-row">跨表取数、匹配、筛选</div>
+        <div class="console-row result">返回可用表格 / 洞察 / 看板初版</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 15: SuperApp Deep ====== -->
+  <section class="slide superapp-slide" data-slide-index="14">
+    <div class="slide-content future-layout">
+      <div class="copy-stack">
+        <p class="eyebrow reveal">SuperApp</p>
+        <h2 class="reveal">从"做页面"升级成"托管一个决策应用"。</h2>
+        <p class="lead reveal">超级应用把观远平台能力原子化，叠加应用托管、CLI / Skill、ADK、API 转发，让网页、小型系统、决策系统都能快速构建、集成、发布。</p>
+        <div class="keyword-cloud reveal">
+          <span>应用托管</span><span>ADK</span><span>API 网关</span><span>表单填报</span><span>LLM 调用</span><span>动态数据</span>
+        </div>
+      </div>
+      <div class="app-stack reveal" aria-label="超级应用形态示意">
+        <span>静态网页</span>
+        <span>动态数据页面</span>
+        <span>小型业务系统</span>
+        <strong>决策系统：数据 + Agent + 业务动作</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 16: Future Service ====== -->
+  <section class="slide future-service-slide" data-slide-index="15">
+    <div class="slide-content">
+      <p class="eyebrow reveal">未来的服务形态</p>
+      <h2 class="reveal">定制开发会更像一套持续进化的数据服务。</h2>
+      <div class="service-loop reveal">
+        <article><span>01</span><h3>识别业务问题</h3></article>
+        <article><span>02</span><h3>Agent 读取 BI 资产</h3></article>
+        <article><span>03</span><h3>生成应用或看板</h3></article>
+        <article><span>04</span><h3>托管到 SuperApp</h3></article>
+        <article><span>05</span><h3>复用为服务资产</h3></article>
+      </div>
+      <p class="future-note reveal">对前线来说，新的机会信号会从"能不能改一个功能"，变成"客户是否希望 AI 更懂业务、让数据直接参与流程"。</p>
+    </div>
+  </section>
+
+  <!-- ====== Slide 17: 10 Questions ====== -->
+  <section class="slide questions-slide" data-slide-index="16">
+    <div class="slide-content">
+      <p class="eyebrow reveal">前线最该问</p>
+      <h2 class="reveal">10 个问题，把机会问出来。</h2>
+      <div class="question-grid reveal">
+        <article class="question-card">
+          <h3>入口与账号</h3>
+          <ol>
+            <li>员工现在从哪个系统入口开始工作？</li>
+            <li>是否希望 BI 跟统一登录或门户打通？</li>
+            <li>是否希望 BI 嵌入现有门户、工作台或移动端？</li>
+          </ol>
+        </article>
+        <article class="question-card">
+          <h3>数据与流程</h3>
+          <ol>
+            <li>核心数据主要在哪些业务系统里？</li>
+            <li>现在有没有人工导入导出、人工同步？</li>
+            <li>标准产品当前最不满足的是接入、展示，还是权限流程？</li>
+          </ol>
+        </article>
+        <article class="question-card">
+          <h3>管理与推广</h3>
+          <ol>
+            <li>权限、审批、导出、安全合规有没有特殊要求？</li>
+            <li>是否需要预警和订阅主动推送？</li>
+            <li>是否有领导驾驶舱、大屏、专题展示场景？</li>
+            <li>这个需求是单部门解决，还是未来全公司推广？</li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 18: Rules ====== -->
+  <section class="slide rules-slide" data-slide-index="17">
+    <div class="slide-content">
+      <p class="eyebrow reveal">内部判断规则</p>
+      <h2 class="reveal">推进要快，承诺要稳。</h2>
+      <div class="rule-columns reveal">
+        <article>
+          <h3>✅ 可以尽快识别并推进</h3>
+          <ul>
+            <li>常见单点登录</li>
+            <li>常见系统接口对接</li>
+            <li>门户内嵌、消息推送</li>
+            <li>常规样式和页面定制</li>
+          </ul>
+        </article>
+        <article>
+          <h3>⚠️ 售前 / 研发尽早介入</h3>
+          <ul>
+            <li>权限中心深度打通</li>
+            <li>审批流联动</li>
+            <li>特殊加密和安全要求</li>
+            <li>自定义复杂图表</li>
+          </ul>
+        </article>
+        <article>
+          <h3>🚫 不要轻易口头承诺</h3>
+          <ul>
+            <li>改动标准产品核心逻辑</li>
+            <li>平台级新能力</li>
+            <li>大规模行业化定制</li>
+            <li>核心系统深度耦合项目</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Slide 19: Closing ====== -->
+  <section class="slide closing-slide" data-slide-index="18">
+    <div class="slide-content closing-content">
+      <p class="eyebrow reveal">统一对外话术</p>
+      <blockquote class="reveal">如果客户的诉求不是"单独做一个功能"，而是希望 BI 更好融入现有 IT 环境和业务流程，或者希望 AI 直接参与数据探索和业务动作，这通常就是我们比较擅长的新型服务场景。</blockquote>
+      <div class="closing-ribbon reveal">
+        <span>识别场景</span>
+        <span>澄清边界</span>
+        <span>引入评估</span>
+        <span>形成方案</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// Slide navigation
+var slides = document.querySelectorAll('.slide');
+var totalSlides = slides.length;
+var currentIndex = 0;
+
+function updateUI(index) {
+  // Update progress
+  var pct = (index + 1) / totalSlides;
+  document.getElementById('progressBar').style.transform = 'scaleX(' + pct + ')';
+  
+  // Update slide count
+  var num = String(index + 1).padStart(2, '0');
+  document.getElementById('slideCount').textContent = num + ' / ' + String(totalSlides).padStart(2, '0');
+  
+  // Update dots
+  document.querySelectorAll('.dot-nav button').forEach(function(btn) {
+    btn.classList.toggle('active', parseInt(btn.dataset.index) === index);
+  });
+  
+  // Update visible class for reveal animations
+  slides.forEach(function(s, i) {
+    s.classList.toggle('visible', i === index);
+  });
+}
+
+function goToSlide(index) {
+  if (index < 0 || index >= totalSlides) return;
+  currentIndex = index;
+  slides[index].scrollIntoView({ behavior: 'smooth' });
+  updateUI(index);
+}
+
+// Listen for scroll to detect current slide
+function onScroll() {
+  var scrollY = window.scrollY;
+  var windowH = window.innerHeight;
+  var newIndex = Math.round(scrollY / windowH);
+  if (newIndex !== currentIndex && newIndex >= 0 && newIndex < totalSlides) {
+    currentIndex = newIndex;
+    updateUI(newIndex);
+  }
+}
+
+// Debounced scroll handler
+var scrollTimer;
+window.addEventListener('scroll', function() {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(onScroll, 100);
+});
+
+// Initial reveal animation trigger
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    slides[0].classList.add('visible');
+  }, 100);
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    goToSlide(currentIndex + 1);
+  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    e.preventDefault();
+    goToSlide(currentIndex - 1);
+  }
+});
+</script>
+
+</body>
+</html>
